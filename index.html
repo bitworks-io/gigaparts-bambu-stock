@@ -224,9 +224,9 @@ function removeSavedItem(key){
   saveSaved(loadSaved().filter(item=>item.key!==key));
   renderSavedList();
 }
-function emailSavedList(){
+function savedListText(){
   const items=savedWithFreshStock();
-  if(!items.length)return;
+  if(!items.length)return "";
   const lines=items.map(item=>[
     `${item.line} - ${item.name}`,
     item.sku?`SKU: ${item.sku}`:null,
@@ -234,8 +234,26 @@ function emailSavedList(){
     item.price!=null?`Price: ${money(item.price)}`:null,
     item.url
   ].filter(Boolean).join("\n"));
-  const body=`Saved GigaParts Bambu filament list\nBrowser list ID: ${browserListId()}\n\n${lines.join("\n\n")}`;
+  return `Saved GigaParts Bambu filament list\nBrowser list ID: ${browserListId()}\n\n${lines.join("\n\n")}`;
+}
+function emailSavedList(){
+  const body=savedListText();
+  if(!body)return;
   location.href=`mailto:?subject=${encodeURIComponent("GigaParts Bambu filament list")}&body=${encodeURIComponent(body)}`;
+}
+async function copySavedList(){
+  const body=savedListText();
+  if(!body)return;
+  await navigator.clipboard.writeText(body);
+}
+function printSavedList(){
+  const body=savedListText();
+  if(!body)return;
+  const win=window.open("", "_blank", "noopener,noreferrer");
+  if(!win)return;
+  win.document.write(`<pre style="font:14px/1.5 system-ui, sans-serif; white-space:pre-wrap">${esc(body)}</pre>`);
+  win.document.close();
+  win.print();
 }
 function renderSavedList(){
   const items=savedWithFreshStock();
@@ -246,7 +264,9 @@ function renderSavedList(){
         <div class="meta">${items.length} saved in this browser</div>
       </div>
       <div class="saved-actions">
-        <button id="email-list" type="button" ${items.length?"":"disabled"}>Email List</button>
+        <button id="email-list" type="button" ${items.length?"":"disabled"}>Email to Myself</button>
+        <button id="copy-list" type="button" ${items.length?"":"disabled"}>Copy</button>
+        <button id="print-list" type="button" ${items.length?"":"disabled"}>Print</button>
         <button id="clear-list" type="button" ${items.length?"":"disabled"}>Clear</button>
       </div>
     </div>
@@ -375,6 +395,8 @@ $("saved-list").addEventListener("click",e=>{
   const remove=e.target.closest("[data-remove-key]");
   if(remove)removeSavedItem(remove.dataset.removeKey);
   if(e.target.id==="email-list")emailSavedList();
+  if(e.target.id==="copy-list")copySavedList();
+  if(e.target.id==="print-list")printSavedList();
   if(e.target.id==="clear-list"){
     saveSaved([]);
     renderSavedList();

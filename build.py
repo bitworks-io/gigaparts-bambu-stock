@@ -471,7 +471,9 @@ def render_html(data: dict[str, Any]) -> str:
     .pill.out{{background:var(--out-bg);color:var(--out-fg)}}
     .pill[data-hex]::before{{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--chip);border:1px solid rgba(0,0,0,.24);margin-right:5px;vertical-align:-1px}}
     .pill a{{color:inherit;text-decoration:none}}
-    .pill .hover-card{{display:none;position:absolute;left:0;top:calc(100% + 6px);min-width:190px;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);padding:9px;z-index:20;color:var(--text)}}
+    .pill.in::after{{content:"";display:none;position:absolute;left:0;right:0;top:100%;height:10px}}
+    .pill .hover-card{{display:none;position:absolute;left:0;top:calc(100% - 1px);min-width:210px;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);padding:9px;z-index:20;color:var(--text)}}
+    .pill.in:hover::after,.pill.in:focus-within::after{{display:block}}
     .pill.in:hover .hover-card,.pill.in:focus-within .hover-card{{display:block}}
     .hover-card a{{display:block;background:var(--accent);color:white;text-align:center;border-radius:6px;padding:7px 8px;margin-top:7px;font-weight:700}}
     .hover-card small{{display:block;color:var(--muted);margin-top:3px}}

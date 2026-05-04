@@ -447,6 +447,20 @@ def render_html(data: dict[str, Any]) -> str:
     .alert-panel a{{color:var(--accent);text-decoration:none}}
     .new-in li{{font-weight:800;color:var(--text)}}
     .no-alerts{{color:var(--dim);font-size:13px}}
+    .saved-list{{background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}}
+    .saved-head{{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border-bottom:1px solid var(--border);flex-wrap:wrap}}
+    .saved-head h2{{font-size:15px;margin:0}}
+    .saved-actions{{display:flex;gap:8px;align-items:center;flex-wrap:wrap}}
+    .saved-items{{list-style:none;margin:0;padding:0}}
+    .saved-items li{{display:grid;grid-template-columns:minmax(180px,1fr) auto auto;gap:10px;align-items:center;padding:10px 12px;border-top:1px solid var(--border);font-size:13px}}
+    .saved-items li:first-child{{border-top:0}}
+    .saved-main strong{{display:block;font-size:13px}}
+    .saved-main span{{display:block;color:var(--muted);font-size:12px;margin-top:2px}}
+    .saved-status{{border-radius:999px;padding:4px 8px;font-size:12px;white-space:nowrap}}
+    .saved-status.in{{background:var(--in-bg);color:var(--in-fg)}}
+    .saved-status.out{{background:var(--out-bg);color:var(--out-fg)}}
+    .remove-saved,.save-btn{{font-size:12px;padding:6px 8px}}
+    .save-btn{{width:100%;margin-top:7px}}
     .groups{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}}
     .group{{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}}
     .group-header{{padding:14px 14px 10px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,var(--surface),var(--surface2))}}
@@ -471,17 +485,17 @@ def render_html(data: dict[str, Any]) -> str:
     .pill.out{{background:var(--out-bg);color:var(--out-fg)}}
     .pill[data-hex]::before{{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--chip);border:1px solid rgba(0,0,0,.24);margin-right:5px;vertical-align:-1px}}
     .pill a{{color:inherit;text-decoration:none}}
-    .pill.in::after{{content:"";display:none;position:absolute;left:0;right:0;top:100%;height:10px}}
+    .pill::after{{content:"";display:none;position:absolute;left:0;right:0;top:100%;height:10px}}
     .pill .hover-card{{display:none;position:absolute;left:0;top:calc(100% - 1px);min-width:210px;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);padding:9px;z-index:20;color:var(--text)}}
-    .pill.in:hover::after,.pill.in:focus-within::after{{display:block}}
-    .pill.in:hover .hover-card,.pill.in:focus-within .hover-card{{display:block}}
+    .pill:hover::after,.pill:focus-within::after{{display:block}}
+    .pill:hover .hover-card,.pill:focus-within .hover-card{{display:block}}
     .hover-card a{{display:block;background:var(--accent);color:white;text-align:center;border-radius:6px;padding:7px 8px;margin-top:7px;font-weight:700}}
     .hover-card small{{display:block;color:var(--muted);margin-top:3px}}
     .empty{{padding:18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--muted)}}
     footer{{max-width:1280px;margin:0 auto;padding:8px 18px 28px;color:var(--dim);font-size:12px}}
     footer a{{color:var(--muted)}}
     @media (max-width:1000px){{.groups{{grid-template-columns:repeat(2,minmax(0,1fr))}}.summary{{grid-template-columns:repeat(2,minmax(0,1fr))}}}}
-    @media (max-width:680px){{.groups{{grid-template-columns:1fr}}main{{padding:12px}}.summary{{grid-template-columns:1fr 1fr}}}}
+    @media (max-width:680px){{.groups{{grid-template-columns:1fr}}main{{padding:12px}}.summary{{grid-template-columns:1fr 1fr}}.saved-items li{{grid-template-columns:1fr}}}}
   </style>
 </head>
 <body>
@@ -510,6 +524,7 @@ def render_html(data: dict[str, Any]) -> str:
 </header>
 <main>
   <section class="alerts" id="alerts"></section>
+  <section class="saved-list" id="saved-list"></section>
   <section class="summary" id="summary"></section>
   <section class="groups" id="groups"></section>
 </main>
@@ -522,18 +537,30 @@ let DATA={payload};
 const GROUP_ORDER=["PLA","PETG","TPU","ABS","ASA","PC","PA","Other"];
 const POLL_MS=60*60*1000;
 const NOTIFY_KEY="gigapartsNotifyInStock";
+const SAVED_KEY="gigapartsSavedFilaments";
+const BROWSER_ID_KEY="gigapartsBrowserListId";
 let query="", statusFilter="all", sortMode="line";
+let currentItems=new Map();
 
 const $=id=>document.getElementById(id);
 const money=v=>typeof v==="number"?"$"+v.toFixed(2):"";
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}}[c]));
 const words=item=>[item.name,item.color,item.sku,item.productId].join(" ").toLowerCase();
 const itemId=(line,item)=>`${{line.name}}|${{item.productId||item.sku||item.name}}`;
+function browserListId(){{
+  let id=localStorage.getItem(BROWSER_ID_KEY);
+  if(!id){{
+    id=(crypto.randomUUID?crypto.randomUUID():`${{Date.now()}}-${{Math.random().toString(16).slice(2)}}`);
+    localStorage.setItem(BROWSER_ID_KEY,id);
+  }}
+  return id;
+}}
 function flatten(data){{
   const map=new Map();
   for(const line of data.lines){{
     for(const item of line.items){{
-      map.set(itemId(line,item),{{line:line.name,group:line.group,...item}});
+      const key=itemId(line,item);
+      map.set(key,{{key,line:line.name,group:line.group,...item}});
     }}
   }}
   return map;
@@ -578,6 +605,66 @@ function renderSummary(filteredLines){{
     ["Out of stock",shown.out],
   ].map(([label,value])=>`<div class="stat"><strong>${{value}}</strong><span>${{label}}</span></div>`).join("");
 }}
+function loadSaved(){{
+  try{{
+    return JSON.parse(localStorage.getItem(SAVED_KEY)||"[]");
+  }}catch(error){{
+    return [];
+  }}
+}}
+function saveSaved(items){{
+  localStorage.setItem(SAVED_KEY,JSON.stringify(items));
+}}
+function savedWithFreshStock(){{
+  const current=flatten(DATA);
+  return loadSaved().map(item=>current.get(item.key)||item);
+}}
+function addSavedItem(key){{
+  const item=currentItems.get(key);
+  if(!item)return;
+  const saved=loadSaved();
+  if(!saved.some(row=>row.key===key)){{
+    saved.push({{key,...item}});
+    saveSaved(saved);
+  }}
+  renderSavedList();
+}}
+function removeSavedItem(key){{
+  saveSaved(loadSaved().filter(item=>item.key!==key));
+  renderSavedList();
+}}
+function emailSavedList(){{
+  const items=savedWithFreshStock();
+  if(!items.length)return;
+  const lines=items.map(item=>[
+    `${{item.line}} - ${{item.name}}`,
+    item.sku?`SKU: ${{item.sku}}`:null,
+    `Status: ${{item.inStock?"In stock":"Out of stock"}}`,
+    item.price!=null?`Price: ${{money(item.price)}}`:null,
+    item.url
+  ].filter(Boolean).join("\\n"));
+  const body=`Saved GigaParts Bambu filament list\\nBrowser list ID: ${{browserListId()}}\\n\\n${{lines.join("\\n\\n")}}`;
+  location.href=`mailto:?subject=${{encodeURIComponent("GigaParts Bambu filament list")}}&body=${{encodeURIComponent(body)}}`;
+}}
+function renderSavedList(){{
+  const items=savedWithFreshStock();
+  $("saved-list").innerHTML=`
+    <div class="saved-head">
+      <div>
+        <h2>Saved Filament List</h2>
+        <div class="meta">${{items.length}} saved in this browser</div>
+      </div>
+      <div class="saved-actions">
+        <button id="email-list" type="button" ${{items.length?"":"disabled"}}>Email List</button>
+        <button id="clear-list" type="button" ${{items.length?"":"disabled"}}>Clear</button>
+      </div>
+    </div>
+    ${{items.length?`<ul class="saved-items">${{items.map(item=>`<li>
+      <div class="saved-main"><strong>${{esc(item.line)}} - ${{esc(item.name)}}</strong><span>${{item.sku?esc(item.sku)+" - ":""}}${{item.price!=null?money(item.price):""}}</span></div>
+      <span class="saved-status ${{item.inStock?"in":"out"}}">${{item.inStock?"In stock":"Out of stock"}}</span>
+      <button class="remove-saved" type="button" data-remove-key="${{esc(item.key)}}">Remove</button>
+    </li>`).join("")}}</ul>`:`<div class="empty">No saved filament yet. Hover a filament and choose Save to List.</div>`}}`;
+}}
 function renderAlerts(changes=DATA.changes||{{inStock:[],outOfStock:[]}}){{
   const list=(items,bold)=>items.length?`<ul>${{items.slice(0,12).map(item=>`<li><a href="${{esc(item.url)}}" target="_blank" rel="noreferrer">${{esc(item.line)}} - ${{esc(item.name)}}</a>${{item.sku?` <span>(${{esc(item.sku)}})</span>`:""}}</li>`).join("")}}${{items.length>12?`<li>+${{items.length-12}} more</li>`:""}}</ul>`:`<div class="no-alerts">No changes in this snapshot.</div>`;
   $("alerts").innerHTML=`
@@ -601,16 +688,21 @@ function lineHtml(line){{
   if(!items.length)return "";
   const inStock=items.filter(i=>i.inStock).length;
   const pills=items.map(item=>{{
+    const key=itemId(line,item);
+    currentItems.set(key,{{key,line:line.name,group:line.group,...item}});
     const style=item.hex?` style="--chip:${{esc(item.hex)}}" data-hex="${{esc(item.hex)}}"`:"";
     const body=`${{item.inStock?"In":"Out"}} &middot; ${{esc(item.name)}}`;
-    const hover=item.inStock?`<span class="hover-card"><strong>${{esc(item.name)}}</strong><small>${{esc(item.sku)}} ${{money(item.price)}}</small><a href="${{esc(item.url)}}" target="_blank" rel="noreferrer">Add to Cart</a></span>`:"";
-    return `<span class="pill ${{item.inStock?"in":"out"}}"${{style}} tabindex="${{item.inStock?0:-1}}">${{body}}${{hover}}</span>`;
+    const cart=item.inStock?`<a href="${{esc(item.url)}}" target="_blank" rel="noreferrer">Add to Cart</a>`:"";
+    const hover=`<span class="hover-card"><strong>${{esc(item.name)}}</strong><small>${{esc(item.sku)}} ${{money(item.price)}}</small>${{cart}}<button class="save-btn" type="button" data-save-key="${{esc(key)}}">Save to List</button></span>`;
+    return `<span class="pill ${{item.inStock?"in":"out"}}"${{style}} tabindex="0">${{body}}${{hover}}</span>`;
   }}).join("");
   return `<details open><summary><span class="twisty">&#9658;</span><span class="line-name">${{esc(line.name)}}</span><span class="counts">${{inStock}} in / ${{items.length-inStock}} out</span><a class="shop" href="${{esc(line.url)}}" target="_blank" rel="noreferrer" onclick="event.stopPropagation()">Shop</a></summary><div class="pills">${{pills}}</div></details>`;
 }}
 function render(){{
+  currentItems=new Map();
   const lines=DATA.lines.map(line=>({{...line,items:visibleItems(line)}})).filter(line=>line.items.length);
   renderAlerts();
+  renderSavedList();
   renderSummary(lines);
   const byGroup=new Map();
   for(const line of DATA.lines){{
@@ -688,6 +780,19 @@ $("search").addEventListener("input",e=>{{query=e.target.value.trim().toLowerCas
 $("status").addEventListener("change",e=>{{statusFilter=e.target.value;render();}});
 $("sort").addEventListener("change",e=>{{sortMode=e.target.value;render();}});
 $("notify").addEventListener("click",toggleNotifications);
+$("saved-list").addEventListener("click",e=>{{
+  const remove=e.target.closest("[data-remove-key]");
+  if(remove)removeSavedItem(remove.dataset.removeKey);
+  if(e.target.id==="email-list")emailSavedList();
+  if(e.target.id==="clear-list"){{
+    saveSaved([]);
+    renderSavedList();
+  }}
+}});
+$("groups").addEventListener("click",e=>{{
+  const save=e.target.closest("[data-save-key]");
+  if(save)addSavedItem(save.dataset.saveKey);
+}});
 $("theme").addEventListener("click",()=>{{
   const html=document.documentElement;
   const dark=html.dataset.theme==="dark";

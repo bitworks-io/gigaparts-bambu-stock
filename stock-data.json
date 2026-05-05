@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-05T03:48:25+00:00",
-  "previousUpdatedAt": "2026-05-05T00:04:59+00:00",
+  "updatedAt": "2026-05-05T06:27:10+00:00",
+  "previousUpdatedAt": "2026-05-05T03:48:25+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -3082,18 +3082,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "line": "PLA Basic Gradient",
-        "group": "PLA",
-        "name": "Ocean to Meadow (1kg, Spool)",
-        "sku": "3DPF013",
-        "productId": "28760",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-basic-gradient-3d-printer-filament.html?sku=3DPF013#product-28760",
-        "price": 22.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

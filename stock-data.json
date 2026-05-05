@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-05T18:22:56+00:00",
-  "previousUpdatedAt": "2026-05-05T16:52:23+00:00",
+  "updatedAt": "2026-05-05T20:19:21+00:00",
+  "previousUpdatedAt": "2026-05-05T18:22:56+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -444,7 +444,7 @@
           "hex": "#becf00",
           "sku": "3DPF349",
           "productId": "33106",
-          "inStock": false,
+          "inStock": true,
           "price": 19.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-basic-3d-printer-filament.html?sku=3DPF349#product-33106"
         },
@@ -1127,7 +1127,7 @@
           "hex": "#f5dbab",
           "sku": "3DPF423",
           "productId": "36447",
-          "inStock": false,
+          "inStock": true,
           "price": 24.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-translucent-3d-printer-filament.html?sku=3DPF423#product-36447"
         },
@@ -1248,7 +1248,7 @@
           "hex": "#0079bf",
           "sku": "3DPF027",
           "productId": "28774",
-          "inStock": false,
+          "inStock": true,
           "price": 22.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF027#product-28774"
         },
@@ -3085,11 +3085,31 @@
       {
         "line": "PLA Basic",
         "group": "PLA",
-        "name": "Cobalt Blue (1kg, Refill)",
-        "sku": "3DPF346",
-        "productId": "33068",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-basic-3d-printer-filament.html?sku=3DPF346#product-33068",
+        "name": "Bright Green (1kg, Refill)",
+        "sku": "3DPF349",
+        "productId": "33106",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-basic-3d-printer-filament.html?sku=3DPF349#product-33106",
         "price": 19.99,
+        "inStock": true
+      },
+      {
+        "line": "PLA Matte",
+        "group": "PLA",
+        "name": "Marine Blue (1kg, Spool)",
+        "sku": "3DPF027",
+        "productId": "28774",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF027#product-28774",
+        "price": 22.99,
+        "inStock": true
+      },
+      {
+        "line": "PLA Translucent",
+        "group": "PLA",
+        "name": "Mellow Yellow (Spool, 1kg)",
+        "sku": "3DPF423",
+        "productId": "36447",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-translucent-3d-printer-filament.html?sku=3DPF423#product-36447",
+        "price": 24.99,
         "inStock": true
       }
     ],

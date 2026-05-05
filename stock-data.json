@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-05T14:22:45+00:00",
-  "previousUpdatedAt": "2026-05-05T11:36:57+00:00",
+  "updatedAt": "2026-05-05T16:52:23+00:00",
+  "previousUpdatedAt": "2026-05-05T14:22:45+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -762,7 +762,7 @@
           "hex": "#cea529",
           "sku": "3DPF067",
           "productId": "28814",
-          "inStock": false,
+          "inStock": true,
           "price": 24.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-sparkle-3d-printer-filament.html?sku=3DPF067#product-28814"
         }
@@ -973,7 +973,7 @@
           "hex": "",
           "sku": "3DPF404",
           "productId": "35316",
-          "inStock": true,
+          "inStock": false,
           "price": 24.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-silk-multi-color-3d-printer-filament.html?sku=3DPF404#product-35316"
         }
@@ -3081,8 +3081,30 @@
     }
   ],
   "changes": {
-    "inStock": [],
-    "outOfStock": []
+    "inStock": [
+      {
+        "line": "PLA Sparkle",
+        "group": "PLA",
+        "name": "Classic Gold Sparkle (1kg, Spool)",
+        "sku": "3DPF067",
+        "productId": "28814",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-sparkle-3d-printer-filament.html?sku=3DPF067#product-28814",
+        "price": 24.99,
+        "inStock": true
+      }
+    ],
+    "outOfStock": [
+      {
+        "line": "PLA Silk Multi-Color",
+        "group": "PLA",
+        "name": "South Beach (1kg, Spool)",
+        "sku": "3DPF404",
+        "productId": "35316",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-silk-multi-color-3d-printer-filament.html?sku=3DPF404#product-35316",
+        "price": 24.99,
+        "inStock": false
+      }
+    ]
   },
   "errors": []
 }

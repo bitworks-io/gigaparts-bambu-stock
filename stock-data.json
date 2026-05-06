@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-06T04:00:10+00:00",
-  "previousUpdatedAt": "2026-05-05T23:59:21+00:00",
+  "updatedAt": "2026-05-06T06:42:09+00:00",
+  "previousUpdatedAt": "2026-05-06T04:00:10+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -3082,18 +3082,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "line": "PLA Tough+",
-        "group": "PLA",
-        "name": "Cyan (Spool, 1kg)",
-        "sku": "3DPF414",
-        "productId": "36438",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-tough-plus-3d-printer-filament.html?sku=3DPF414#product-36438",
-        "price": 23.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

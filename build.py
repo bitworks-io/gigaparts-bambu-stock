@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Build a static Bambu Lab filament stock tracker for GigaParts.
+Build a static filament stock tracker for GigaParts.
 
 The script downloads configured GigaParts configurable-product pages, parses the
 embedded Magento variant config, and writes a self-contained index.html.
@@ -60,35 +60,43 @@ OPTION_HEX = {
     "4122": "#5b6579",
 }
 
-PRODUCT_URLS = [
-    "https://www.gigaparts.com/bambu-lab-pla-basic-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-basic-gradient-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-glow-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-metal-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-sparkle-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-cf-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-marble-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-silk-multi-color-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-wood-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-translucent-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-aero-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-galaxy-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-silk-plus-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pla-tough-plus-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-petg-translucent-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-petg-cf-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-tpu-95a-hf-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-tpu-for-ams-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-tpu-90a-85a-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-abs-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-abs-gf-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-asa-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pc-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pc-fr-3d-printer-filament.html",
-    "https://www.gigaparts.com/bambu-lab-pa6-gf-3d-printer-filament.html",
+PRODUCTS = [
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-basic-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-basic-gradient-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-glow-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-metal-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-sparkle-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-cf-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-marble-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-silk-multi-color-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-wood-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-translucent-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-aero-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-galaxy-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-silk-plus-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pla-tough-plus-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-petg-translucent-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-petg-cf-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-tpu-95a-hf-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-tpu-for-ams-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-tpu-90a-85a-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-abs-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-abs-gf-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-asa-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pc-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pc-fr-3d-printer-filament.html"},
+    {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pa6-gf-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-basic-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-matte-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-starlight-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-gradient-starlight-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-glow-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-gradient-matte-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-polylite-metallic-pla-pro-metallic-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-petg-3d-printer-filament.html"},
 ]
 
 
@@ -146,14 +154,18 @@ def parse_ld_product(source: str) -> dict[str, Any]:
 
 def parse_configurable(source: str) -> dict[str, Any]:
     marker = "initConfigurableOptions("
-    marker_pos = source.find(marker)
-    if marker_pos == -1:
-        raise ValueError("No initConfigurableOptions call found")
-    first_quote = source.find("'", marker_pos)
-    first_comma = source.find(",", first_quote)
-    json_start = source.find("{", first_comma)
-    config, _ = read_balanced_json(source, json_start)
-    return config
+    for match in re.finditer(re.escape(marker), source):
+        marker_pos = match.start()
+        json_start = source.find("{", marker_pos)
+        if json_start == -1:
+            continue
+        try:
+            config, _ = read_balanced_json(source, json_start)
+        except (json.JSONDecodeError, ValueError):
+            continue
+        if "attributes" in config and "index" in config:
+            return config
+    raise ValueError("No initConfigurableOptions call found")
 
 
 def parse_swatches(source: str) -> dict[str, Any]:
@@ -221,7 +233,11 @@ def parse_notification_option_config(source: str, product_id: str) -> dict[str, 
 
 
 def short_line_name(name: str) -> str:
-    cleaned = name.replace("Bambu Lab ", "").replace(" 3D Printer Filament", "")
+    cleaned = (
+        name.replace("Bambu Lab ", "")
+        .replace("Polymaker ", "")
+        .replace(" 3D Printer Filament", "")
+    )
     return cleaned.strip()
 
 
@@ -240,7 +256,7 @@ def product_page_link(url: str, sku: str, product_id: str) -> str:
 
 def item_key(line: dict[str, Any], item: dict[str, Any]) -> str:
     variant_id = item.get("productId") or item.get("sku") or item.get("name")
-    return f"{line.get('name', '')}|{variant_id}"
+    return f"{line.get('brand', '')}|{line.get('name', '')}|{variant_id}"
 
 
 def stock_index(data: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -248,6 +264,7 @@ def stock_index(data: dict[str, Any]) -> dict[str, dict[str, Any]]:
     for line in data.get("lines", []):
         for item in line.get("items", []):
             indexed[item_key(line, item)] = {
+                "brand": line.get("brand", ""),
                 "line": line.get("name", ""),
                 "group": line.get("group", ""),
                 "name": item.get("name", ""),
@@ -266,7 +283,7 @@ def stock_changes(previous: dict[str, Any] | None, current: dict[str, Any]) -> d
     old = stock_index(previous)
     new = stock_index(current)
     changes = {"inStock": [], "outOfStock": []}
-    for key, item in sorted(new.items(), key=lambda row: (row[1]["line"], row[1]["name"])):
+    for key, item in sorted(new.items(), key=lambda row: (row[1]["brand"], row[1]["line"], row[1]["name"])):
         old_item = old.get(key)
         if old_item is None or old_item["inStock"] == item["inStock"]:
             continue
@@ -286,20 +303,50 @@ def load_previous_data() -> dict[str, Any] | None:
         return None
 
 
-def parse_product(url: str, source: str) -> dict[str, Any]:
+def parse_product(brand: str, url: str, source: str) -> dict[str, Any]:
     ld_product = parse_ld_product(source)
-    config = parse_configurable(source)
-    swatches = parse_swatches(source)
     page_product_id = main_product_id(source)
+    product_name = product_name_from_ld(ld_product, url)
+    line = short_line_name(product_name)
+    group = group_for_line(line)
+    try:
+        config = parse_configurable(source)
+    except ValueError:
+        offers = ld_product.get("offers", {})
+        price = offers.get("price") if isinstance(offers, dict) else None
+        try:
+            price = float(price) if price not in (None, "") else None
+        except (TypeError, ValueError):
+            price = None
+        availability = offers.get("availability", "") if isinstance(offers, dict) else ""
+        in_stock = "InStock" in availability or "BackOrder" in availability
+        sku = ld_product.get("sku", "")
+        product_id = page_product_id or str(ld_product.get("productID", ""))
+        return {
+            "brand": brand,
+            "name": line,
+            "group": group,
+            "url": url,
+            "items": [
+                {
+                    "name": "Default",
+                    "color": "",
+                    "hex": "",
+                    "sku": sku,
+                    "productId": product_id,
+                    "inStock": in_stock,
+                    "price": price,
+                    "url": product_page_link(url, sku, product_id),
+                }
+            ],
+        }
+    swatches = parse_swatches(source)
     lookups = option_lookup(config)
     salable = salable_product_ids(config)
     color_attr = next(
         (attr_id for attr_id, attr in config.get("attributes", {}).items() if attr.get("code") == "color"),
         None,
     )
-    product_name = product_name_from_ld(ld_product, url)
-    line = short_line_name(product_name)
-    group = group_for_line(line)
     items = []
 
     if page_product_id and str(config.get("productId")) != page_product_id:
@@ -330,6 +377,7 @@ def parse_product(url: str, source: str) -> dict[str, Any]:
             )
         if items:
             return {
+                "brand": brand,
                 "name": line,
                 "group": group,
                 "url": url,
@@ -373,6 +421,7 @@ def parse_product(url: str, source: str) -> dict[str, Any]:
         )
 
     return {
+        "brand": brand,
         "name": line,
         "group": group,
         "url": url,
@@ -383,11 +432,13 @@ def parse_product(url: str, source: str) -> dict[str, Any]:
 def build_data(previous: dict[str, Any] | None = None) -> dict[str, Any]:
     lines = []
     errors = []
-    for i, url in enumerate(PRODUCT_URLS, 1):
-        print(f"[{i:02d}/{len(PRODUCT_URLS)}] {url}")
+    for i, product in enumerate(PRODUCTS, 1):
+        brand = product["brand"]
+        url = product["url"]
+        print(f"[{i:02d}/{len(PRODUCTS)}] {brand}: {url}")
         try:
             source = fetch(url)
-            lines.append(parse_product(url, source))
+            lines.append(parse_product(brand, url, source))
         except (URLError, TimeoutError, ValueError, json.JSONDecodeError) as exc:
             errors.append({"url": url, "error": str(exc)})
             print(f"  warning: {exc}", file=sys.stderr)
@@ -431,6 +482,9 @@ def render_html(data: dict[str, Any]) -> str:
     h1{{font-size:18px;line-height:1.2;margin:0;font-weight:750}}
     .meta{{color:var(--muted);font-size:13px;margin-top:3px}}
     .controls{{display:flex;gap:8px;align-items:center;flex-wrap:wrap}}
+    .search-wrap{{position:relative;display:flex;align-items:center}}
+    .search-wrap input{{padding-right:32px;min-width:250px}}
+    .search-tip{{position:absolute;right:8px;width:18px;height:18px;border-radius:50%;border:1px solid var(--border);color:var(--muted);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;background:var(--surface2)}}
     input,select,button{{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;font-size:13px}}
     button{{cursor:pointer}}
     button:hover{{background:var(--surface2)}}
@@ -461,6 +515,9 @@ def render_html(data: dict[str, Any]) -> str:
     .saved-status.out{{background:var(--out-bg);color:var(--out-fg)}}
     .remove-saved,.save-btn{{font-size:12px;padding:6px 8px}}
     .save-btn{{width:100%;margin-top:7px}}
+    .brand-tabs{{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 16px}}
+    .brand-tab{{border-radius:999px;padding:8px 14px;font-weight:750}}
+    .brand-tab[aria-selected="true"]{{background:var(--accent);border-color:var(--accent);color:white}}
     .groups{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}}
     .group{{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:visible;box-shadow:var(--shadow)}}
     .group-header{{padding:14px 14px 10px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,var(--surface),var(--surface2))}}
@@ -506,7 +563,10 @@ def render_html(data: dict[str, Any]) -> str:
       <div class="meta" id="updated"></div>
     </div>
     <div class="controls">
-      <input id="search" type="search" placeholder="Search color, type, SKU...">
+      <div class="search-wrap">
+        <input id="search" type="search" placeholder="Search color, HEX, type, SKU..." aria-describedby="search-tip">
+        <span class="search-tip" id="search-tip" title="Color names match text; HEX searches show closest swatch colors across all filament types.">?</span>
+      </div>
       <select id="status">
         <option value="all">All stock</option>
         <option value="in">In stock</option>
@@ -525,6 +585,7 @@ def render_html(data: dict[str, Any]) -> str:
 <main>
   <section class="alerts" id="alerts"></section>
   <section class="saved-list" id="saved-list"></section>
+  <nav class="brand-tabs" id="brand-tabs" aria-label="Filament brand"></nav>
   <section class="summary" id="summary"></section>
   <section class="groups" id="groups"></section>
 </main>
@@ -535,18 +596,55 @@ def render_html(data: dict[str, Any]) -> str:
 <script>
 let DATA={payload};
 const GROUP_ORDER=["PLA","PETG","TPU","ABS","ASA","PC","PA","Other"];
+const BRANDS=[...new Set(DATA.lines.map(line=>line.brand||"Filament"))];
 const POLL_MS=60*60*1000;
 const NOTIFY_KEY="gigapartsNotifyInStock";
 const SAVED_KEY="gigapartsSavedFilaments";
 const BROWSER_ID_KEY="gigapartsBrowserListId";
 let query="", statusFilter="all", sortMode="line";
+let activeBrand=BRANDS[0]||"Filament";
 let currentItems=new Map();
+let colorMatchKeys=new Set();
 
 const $=id=>document.getElementById(id);
 const money=v=>typeof v==="number"?"$"+v.toFixed(2):"";
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}}[c]));
-const words=item=>[item.name,item.color,item.sku,item.productId].join(" ").toLowerCase();
-const itemId=(line,item)=>`${{line.name}}|${{item.productId||item.sku||item.name}}`;
+const words=(line,item)=>[line.brand,line.name,line.group,item.name,item.color,item.hex,item.sku,item.productId].join(" ").toLowerCase();
+const itemId=(line,item)=>`${{line.brand||""}}|${{line.name}}|${{item.productId||item.sku||item.name}}`;
+function normalizeHex(value){{
+  const raw=String(value||"").trim().replace(/^#/,"");
+  if(/^[0-9a-f]{{3}}$/i.test(raw))return raw.split("").map(ch=>ch+ch).join("").toLowerCase();
+  if(/^[0-9a-f]{{6}}$/i.test(raw))return raw.toLowerCase();
+  return "";
+}}
+function hexToRgb(hex){{
+  const clean=normalizeHex(hex);
+  if(!clean)return null;
+  return [0,2,4].map(i=>parseInt(clean.slice(i,i+2),16));
+}}
+function colorDistance(a,b){{
+  const ar=hexToRgb(a), br=hexToRgb(b);
+  if(!ar||!br)return Infinity;
+  return Math.hypot(ar[0]-br[0],ar[1]-br[1],ar[2]-br[2]);
+}}
+function updateColorMatches(){{
+  colorMatchKeys=new Set();
+  const target=normalizeHex(query);
+  if(!target)return;
+  const ranked=[];
+  for(const line of DATA.lines){{
+    for(const item of line.items){{
+      if(!item.hex)continue;
+      ranked.push({{key:itemId(line,item),dist:colorDistance(target,item.hex)}});
+    }}
+  }}
+  ranked.sort((a,b)=>a.dist-b.dist);
+  const best=ranked[0]?.dist;
+  if(best==null||!Number.isFinite(best))return;
+  for(const row of ranked.slice(0,36)){{
+    if(row.dist<=Math.max(best+70,110))colorMatchKeys.add(row.key);
+  }}
+}}
 function browserListId(){{
   let id=localStorage.getItem(BROWSER_ID_KEY);
   if(!id){{
@@ -560,7 +658,7 @@ function flatten(data){{
   for(const line of data.lines){{
     for(const item of line.items){{
       const key=itemId(line,item);
-      map.set(key,{{key,line:line.name,group:line.group,...item}});
+      map.set(key,{{key,brand:line.brand,line:line.name,group:line.group,...item}});
     }}
   }}
   return map;
@@ -582,7 +680,9 @@ function visibleItems(line){{
   return line.items.filter(item=>{{
     if(statusFilter==="in"&&!item.inStock)return false;
     if(statusFilter==="out"&&item.inStock)return false;
-    return !query||words(item).includes(query)||line.name.toLowerCase().includes(query);
+    if(!query)return true;
+    if(colorMatchKeys.size)return colorMatchKeys.has(itemId(line,item));
+    return words(line,item).includes(query);
   }});
 }}
 function sortItems(items){{
@@ -597,7 +697,8 @@ function totals(lines=DATA.lines){{
   return {{lines:lines.length,total:items.length,inStock,out:items.length-inStock}};
 }}
 function renderSummary(filteredLines){{
-  const all=totals(DATA.lines), shown=totals(filteredLines);
+  const brandLines=DATA.lines.filter(line=>(line.brand||"Filament")===activeBrand);
+  const all=totals(brandLines), shown=totals(filteredLines);
   $("summary").innerHTML=[
     ["Lines",shown.lines+"/"+all.lines],
     ["Shown variants",shown.total+"/"+all.total],
@@ -637,7 +738,7 @@ function savedListText(){{
   const items=savedWithFreshStock();
   if(!items.length)return "";
   const lines=items.map(item=>[
-    `${{item.line}} - ${{item.name}}`,
+    `${{item.brand?item.brand+" - ":""}}${{item.line}} - ${{item.name}}`,
     item.sku?`SKU: ${{item.sku}}`:null,
     `Status: ${{item.inStock?"In stock":"Out of stock"}}`,
     item.price!=null?`Price: ${{money(item.price)}}`:null,
@@ -680,13 +781,13 @@ function renderSavedList(){{
       </div>
     </div>
     ${{items.length?`<ul class="saved-items">${{items.map(item=>`<li>
-      <div class="saved-main"><strong>${{esc(item.line)}} - ${{esc(item.name)}}</strong><span>${{item.sku?esc(item.sku)+" - ":""}}${{item.price!=null?money(item.price):""}}</span></div>
+      <div class="saved-main"><strong>${{item.brand?esc(item.brand)+" - ":""}}${{esc(item.line)}} - ${{esc(item.name)}}</strong><span>${{item.sku?esc(item.sku)+" - ":""}}${{item.price!=null?money(item.price):""}}</span></div>
       <span class="saved-status ${{item.inStock?"in":"out"}}">${{item.inStock?"In stock":"Out of stock"}}</span>
       <button class="remove-saved" type="button" data-remove-key="${{esc(item.key)}}">Remove</button>
     </li>`).join("")}}</ul>`:`<div class="empty">No saved filament yet. Hover a filament and choose Save to List.</div>`}}`;
 }}
 function renderAlerts(changes=DATA.changes||{{inStock:[],outOfStock:[]}}){{
-  const list=(items,bold)=>items.length?`<ul>${{items.slice(0,12).map(item=>`<li><a href="${{esc(item.url)}}" target="_blank" rel="noreferrer">${{esc(item.line)}} - ${{esc(item.name)}}</a>${{item.sku?` <span>(${{esc(item.sku)}})</span>`:""}}</li>`).join("")}}${{items.length>12?`<li>+${{items.length-12}} more</li>`:""}}</ul>`:`<div class="no-alerts">No changes in this snapshot.</div>`;
+  const list=(items,bold)=>items.length?`<ul>${{items.slice(0,12).map(item=>`<li><a href="${{esc(item.url)}}" target="_blank" rel="noreferrer">${{item.brand?esc(item.brand)+" - ":""}}${{esc(item.line)}} - ${{esc(item.name)}}</a>${{item.sku?` <span>(${{esc(item.sku)}})</span>`:""}}</li>`).join("")}}${{items.length>12?`<li>+${{items.length-12}} more</li>`:""}}</ul>`:`<div class="no-alerts">No changes in this snapshot.</div>`;
   $("alerts").innerHTML=`
     <article class="alert-panel new-out">
       <h2>Newly Out of Stock</h2>
@@ -703,13 +804,20 @@ function groupStats(lines){{
   const pct=items.length?Math.round(inStock/items.length*100):0;
   return {{total:items.length,inStock,out:items.length-inStock,pct}};
 }}
+function renderBrandTabs(){{
+  $("brand-tabs").innerHTML=BRANDS.map(brand=>{{
+    const lines=DATA.lines.filter(line=>(line.brand||"Filament")===brand);
+    const stats=totals(lines);
+    return `<button class="brand-tab" type="button" data-brand="${{esc(brand)}}" aria-selected="${{brand===activeBrand}}">${{esc(brand)}} <span>${{stats.inStock}}/${{stats.total}}</span></button>`;
+  }}).join("");
+}}
 function lineHtml(line){{
   const items=sortItems(visibleItems(line));
   if(!items.length)return "";
   const inStock=items.filter(i=>i.inStock).length;
   const pills=items.map(item=>{{
     const key=itemId(line,item);
-    currentItems.set(key,{{key,line:line.name,group:line.group,...item}});
+    currentItems.set(key,{{key,brand:line.brand,line:line.name,group:line.group,...item}});
     const style=item.hex?` style="--chip:${{esc(item.hex)}}" data-hex="${{esc(item.hex)}}"`:"";
     const body=`${{item.inStock?"In":"Out"}} &middot; ${{esc(item.name)}}`;
     const cart=item.inStock?`<a href="${{esc(item.url)}}" target="_blank" rel="noreferrer">Add to Cart</a>`:"";
@@ -720,12 +828,16 @@ function lineHtml(line){{
 }}
 function render(){{
   currentItems=new Map();
-  const lines=DATA.lines.map(line=>({{...line,items:visibleItems(line)}})).filter(line=>line.items.length);
+  updateColorMatches();
+  if(!BRANDS.includes(activeBrand))activeBrand=BRANDS[0]||"Filament";
+  const brandLines=DATA.lines.filter(line=>(line.brand||"Filament")===activeBrand);
+  const lines=brandLines.map(line=>({{...line,items:visibleItems(line)}})).filter(line=>line.items.length);
   renderAlerts();
   renderSavedList();
+  renderBrandTabs();
   renderSummary(lines);
   const byGroup=new Map();
-  for(const line of DATA.lines){{
+  for(const line of brandLines){{
     if(!visibleItems(line).length)continue;
     if(!byGroup.has(line.group))byGroup.set(line.group,[]);
     byGroup.get(line.group).push(line);
@@ -789,7 +901,7 @@ function sendInStockNotifications(items){{
   if(!notificationEnabled()||!items.length)return;
   const shown=items.slice(0,4);
   for(const item of shown){{
-    new Notification(`${{item.line}} in stock`,{{body:item.sku?`${{item.name}} (${{item.sku}})`:item.name}});
+    new Notification(`${{item.brand?item.brand+" - ":""}}${{item.line}} in stock`,{{body:item.sku?`${{item.name}} (${{item.sku}})`:item.name}});
   }}
   if(items.length>shown.length){{
     new Notification("More GigaParts filament in stock",{{body:`${{items.length-shown.length}} additional variants became available.`}});
@@ -810,6 +922,12 @@ $("saved-list").addEventListener("click",e=>{{
     saveSaved([]);
     renderSavedList();
   }}
+}});
+$("brand-tabs").addEventListener("click",e=>{{
+  const tab=e.target.closest("[data-brand]");
+  if(!tab)return;
+  activeBrand=tab.dataset.brand;
+  render();
 }});
 $("groups").addEventListener("click",e=>{{
   const save=e.target.closest("[data-save-key]");

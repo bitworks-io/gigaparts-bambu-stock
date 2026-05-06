@@ -1,6 +1,26 @@
 # GigaParts Filament Stock
 
-A static stock tracker for Bambu Lab filament sold by GigaParts.
+A static stock tracker for GigaParts filament availability.
+
+Live page: <https://bitworks-io.github.io/gigaparts-filament-stock/>
+
+The live page is rebuilt by GitHub Actions once per hour. While open in a
+browser, the page also checks `stock-data.json` once per hour for fresh stock
+changes.
+
+## Primary Features
+
+- Tracks Bambu Lab and Polymaker filament variants sold by GigaParts.
+- Organizes filament by brand tab, material group, and product line.
+- Shows in-stock and out-of-stock counts, prices, SKUs, and color swatches.
+- Provides Add to Cart links for in-stock variants on hover or keyboard focus.
+- Shows newly out-of-stock and newly in-stock alerts at the top of the page.
+- Supports browser notifications for newly in-stock variants while the page is
+  open.
+- Includes search by color name, SKU, material, line, or HEX color. HEX searches
+  return the closest available swatch colors across filament types.
+- Lets each browser profile keep a saved filament list using `localStorage`,
+  with copy, print, and local `mailto:` email actions.
 
 Run:
 

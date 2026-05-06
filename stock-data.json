@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-06T06:42:09+00:00",
-  "previousUpdatedAt": "2026-05-06T04:00:10+00:00",
+  "updatedAt": "2026-05-06T09:35:40+00:00",
+  "previousUpdatedAt": "2026-05-06T06:42:09+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -2380,7 +2380,7 @@
           "hex": "#000000",
           "sku": "3DPF274",
           "productId": "33102",
-          "inStock": false,
+          "inStock": true,
           "price": 31.99,
           "url": "https://www.gigaparts.com/bambu-lab-petg-cf-3d-printer-filament.html?sku=3DPF274#product-33102"
         }
@@ -3081,7 +3081,18 @@
     }
   ],
   "changes": {
-    "inStock": [],
+    "inStock": [
+      {
+        "line": "PETG CF",
+        "group": "PETG",
+        "name": "Black (1kg, Refill)",
+        "sku": "3DPF274",
+        "productId": "33102",
+        "url": "https://www.gigaparts.com/bambu-lab-petg-cf-3d-printer-filament.html?sku=3DPF274#product-33102",
+        "price": 31.99,
+        "inStock": true
+      }
+    ],
     "outOfStock": []
   },
   "errors": []

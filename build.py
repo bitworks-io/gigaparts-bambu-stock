@@ -462,7 +462,7 @@ def render_html(data: dict[str, Any]) -> str:
     .remove-saved,.save-btn{{font-size:12px;padding:6px 8px}}
     .save-btn{{width:100%;margin-top:7px}}
     .groups{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}}
-    .group{{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}}
+    .group{{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:visible;box-shadow:var(--shadow)}}
     .group-header{{padding:14px 14px 10px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,var(--surface),var(--surface2))}}
     .group-title{{display:flex;align-items:baseline;justify-content:space-between;gap:10px}}
     .group-title h2{{font-size:16px;margin:0}}

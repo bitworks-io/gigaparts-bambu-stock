@@ -1,4 +1,4 @@
-# GigaParts Bambu Filament Tracker
+# GigaParts Filament Stock
 
 A static stock tracker for Bambu Lab filament sold by GigaParts.
 

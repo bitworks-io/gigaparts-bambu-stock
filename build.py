@@ -412,7 +412,7 @@ def render_html(data: dict[str, Any]) -> str:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GigaParts Bambu Filament Availability</title>
+  <title>GigaParts Filament Stock</title>
   <style>
     *,*::before,*::after{{box-sizing:border-box}}
     :root{{
@@ -502,7 +502,7 @@ def render_html(data: dict[str, Any]) -> str:
 <header>
   <div class="topbar">
     <div>
-      <h1>GigaParts Bambu Filament Availability</h1>
+      <h1>GigaParts Filament Stock</h1>
       <div class="meta" id="updated"></div>
     </div>
     <div class="controls">
@@ -643,12 +643,12 @@ function savedListText(){{
     item.price!=null?`Price: ${{money(item.price)}}`:null,
     item.url
   ].filter(Boolean).join("\\n"));
-  return `Saved GigaParts Bambu filament list\\nBrowser list ID: ${{browserListId()}}\\n\\n${{lines.join("\\n\\n")}}`;
+  return `Saved GigaParts filament list\\nBrowser list ID: ${{browserListId()}}\\n\\n${{lines.join("\\n\\n")}}`;
 }}
 function emailSavedList(){{
   const body=savedListText();
   if(!body)return;
-  location.href=`mailto:?subject=${{encodeURIComponent("GigaParts Bambu filament list")}}&body=${{encodeURIComponent(body)}}`;
+  location.href=`mailto:?subject=${{encodeURIComponent("GigaParts filament list")}}&body=${{encodeURIComponent(body)}}`;
 }}
 async function copySavedList(){{
   const body=savedListText();

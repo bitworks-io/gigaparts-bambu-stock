@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-07T04:01:03+00:00",
-  "previousUpdatedAt": "2026-05-07T00:03:33+00:00",
+  "updatedAt": "2026-05-07T06:49:37+00:00",
+  "previousUpdatedAt": "2026-05-07T04:01:03+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -3478,7 +3478,7 @@
           "sku": "3DPM0167",
           "productId": "38451",
           "inStock": true,
-          "price": 17.99,
+          "price": 12.99,
           "url": "https://www.gigaparts.com/polymaker-panchroma-matte-pla-3d-printer-filament.html?sku=3DPM0167#product-38451"
         },
         {
@@ -3802,7 +3802,7 @@
           "sku": "3DPM0029",
           "productId": "38426",
           "inStock": true,
-          "price": 19.99,
+          "price": 24.99,
           "url": "https://www.gigaparts.com/polymaker-panchroma-glow-pla-3d-printer-filament.html?sku=3DPM0029#product-38426"
         },
         {
@@ -4134,19 +4134,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "brand": "Bambu",
-        "line": "PLA Matte",
-        "group": "PLA",
-        "name": "Bone White (1kg, Refill)",
-        "sku": "3DPF369",
-        "productId": "33826",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF369#product-33826",
-        "price": 19.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

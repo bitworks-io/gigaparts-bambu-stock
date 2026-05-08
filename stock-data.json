@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-08T03:51:04+00:00",
-  "previousUpdatedAt": "2026-05-08T00:03:09+00:00",
+  "updatedAt": "2026-05-08T06:06:57+00:00",
+  "previousUpdatedAt": "2026-05-08T03:51:04+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -3030,7 +3030,7 @@
           "sku": "3DPM0242",
           "productId": "38470",
           "inStock": true,
-          "price": 19.99,
+          "price": 14.99,
           "url": "https://www.gigaparts.com/polymaker-panchroma-basic-pla-3d-printer-filament.html?sku=3DPM0242#product-38470"
         },
         {
@@ -3478,7 +3478,7 @@
           "sku": "3DPM0167",
           "productId": "38451",
           "inStock": true,
-          "price": 12.99,
+          "price": 17.99,
           "url": "https://www.gigaparts.com/polymaker-panchroma-matte-pla-3d-printer-filament.html?sku=3DPM0167#product-38451"
         },
         {
@@ -4584,30 +4584,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "brand": "Bambu",
-        "line": "PETG CF",
-        "group": "PETG",
-        "name": "Titan Gray (1kg, Spool)",
-        "sku": "3DPF169",
-        "productId": "28894",
-        "url": "https://www.gigaparts.com/bambu-lab-petg-cf-3d-printer-filament.html?sku=3DPF169#product-28894",
-        "price": 34.99,
-        "inStock": false
-      },
-      {
-        "brand": "Bambu",
-        "line": "PLA CF",
-        "group": "PLA",
-        "name": "Black (1kg, Spool)",
-        "sku": "3DPF098",
-        "productId": "28840",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-cf-3d-printer-filament.html?sku=3DPF098#product-28840",
-        "price": 34.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

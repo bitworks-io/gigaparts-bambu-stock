@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-08T20:15:47+00:00",
-  "previousUpdatedAt": "2026-05-08T18:21:48+00:00",
+  "updatedAt": "2026-05-08T22:09:48+00:00",
+  "previousUpdatedAt": "2026-05-08T20:15:47+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -2161,7 +2161,7 @@
           "hex": "#000000",
           "sku": "3DPF270",
           "productId": "32625",
-          "inStock": true,
+          "inStock": false,
           "price": 19.99,
           "url": "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html?sku=3DPF270#product-32625"
         },
@@ -2399,7 +2399,7 @@
           "hex": "#000000",
           "sku": "3DPF274",
           "productId": "33102",
-          "inStock": true,
+          "inStock": false,
           "price": 31.99,
           "url": "https://www.gigaparts.com/bambu-lab-petg-cf-3d-printer-filament.html?sku=3DPF274#product-33102"
         }
@@ -2731,7 +2731,7 @@
           "hex": "#c9c9c9",
           "sku": "3DPF246",
           "productId": "32419",
-          "inStock": true,
+          "inStock": false,
           "price": 19.99,
           "url": "https://www.gigaparts.com/bambu-lab-abs-3d-printer-filament.html?sku=3DPF246#product-32419"
         },
@@ -4714,7 +4714,41 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": []
+    "outOfStock": [
+      {
+        "brand": "Bambu",
+        "line": "ABS",
+        "group": "ABS",
+        "name": "Silver (1kg, Refill)",
+        "sku": "3DPF246",
+        "productId": "32419",
+        "url": "https://www.gigaparts.com/bambu-lab-abs-3d-printer-filament.html?sku=3DPF246#product-32419",
+        "price": 19.99,
+        "inStock": false
+      },
+      {
+        "brand": "Bambu",
+        "line": "PETG CF",
+        "group": "PETG",
+        "name": "Black (1kg, Refill)",
+        "sku": "3DPF274",
+        "productId": "33102",
+        "url": "https://www.gigaparts.com/bambu-lab-petg-cf-3d-printer-filament.html?sku=3DPF274#product-33102",
+        "price": 31.99,
+        "inStock": false
+      },
+      {
+        "brand": "Bambu",
+        "line": "PETG HF",
+        "group": "PETG",
+        "name": "Black (1kg, Refill)",
+        "sku": "3DPF270",
+        "productId": "32625",
+        "url": "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html?sku=3DPF270#product-32625",
+        "price": 19.99,
+        "inStock": false
+      }
+    ]
   },
   "errors": []
 }

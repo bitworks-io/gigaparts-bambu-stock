@@ -469,6 +469,7 @@ def render_html(data: dict[str, Any]) -> str:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GigaParts Filament Stock</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23172033'/%3E%3Ccircle cx='28' cy='30' r='20' fill='%230088d6'/%3E%3Ccircle cx='28' cy='30' r='12' fill='%23ffffff'/%3E%3Ccircle cx='28' cy='30' r='5' fill='%23172033'/%3E%3Cpath d='M42 30c10 0 15 5 15 12 0 5-3 9-8 9-4 0-7-3-7-7 0-3 2-5 5-5' fill='none' stroke='%23f5547c' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M13 16h30' stroke='%23fec700' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
   <style>
     *,*::before,*::after{{box-sizing:border-box}}
     :root{{

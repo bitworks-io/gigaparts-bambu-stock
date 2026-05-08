@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-07T22:13:33+00:00",
-  "previousUpdatedAt": "2026-05-07T20:24:10+00:00",
+  "updatedAt": "2026-05-08T00:03:09+00:00",
+  "previousUpdatedAt": "2026-05-07T22:13:33+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -865,7 +865,7 @@
           "hex": "#000000",
           "sku": "3DPF241",
           "productId": "33098",
-          "inStock": true,
+          "inStock": false,
           "price": 31.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-cf-3d-printer-filament.html?sku=3DPF241#product-33098"
         }
@@ -4583,53 +4583,20 @@
     }
   ],
   "changes": {
-    "inStock": [
+    "inStock": [],
+    "outOfStock": [
       {
         "brand": "Bambu",
-        "line": "PETG HF",
-        "group": "PETG",
-        "name": "Black (1kg, Refill)",
-        "sku": "3DPF270",
-        "productId": "32625",
-        "url": "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html?sku=3DPF270#product-32625",
-        "price": 19.99,
-        "inStock": true
-      },
-      {
-        "brand": "Bambu",
-        "line": "PETG HF",
-        "group": "PETG",
-        "name": "Red (1kg, Spool)",
-        "sku": "3DPF165",
-        "productId": "31856",
-        "url": "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html?sku=3DPF165#product-31856",
-        "price": 22.99,
-        "inStock": true
-      },
-      {
-        "brand": "Bambu",
-        "line": "PETG Translucent",
-        "group": "PETG",
-        "name": "Translucent Olive (1kg, Refill)",
-        "sku": "3DPF261",
-        "productId": "33232",
-        "url": "https://www.gigaparts.com/bambu-lab-petg-translucent-3d-printer-filament.html?sku=3DPF261#product-33232",
-        "price": 19.99,
-        "inStock": true
-      },
-      {
-        "brand": "Bambu",
-        "line": "PLA Silk Multi-Color",
+        "line": "PLA CF",
         "group": "PLA",
-        "name": "South Beach (1kg, Spool)",
-        "sku": "3DPF404",
-        "productId": "35316",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-silk-multi-color-3d-printer-filament.html?sku=3DPF404#product-35316",
-        "price": 24.99,
-        "inStock": true
+        "name": "Black (1kg, Refill)",
+        "sku": "3DPF241",
+        "productId": "33098",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-cf-3d-printer-filament.html?sku=3DPF241#product-33098",
+        "price": 31.99,
+        "inStock": false
       }
-    ],
-    "outOfStock": []
+    ]
   },
   "errors": []
 }

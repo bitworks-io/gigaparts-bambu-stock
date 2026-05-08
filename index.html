@@ -23,8 +23,11 @@
     .meta{color:var(--muted);font-size:13px;margin-top:3px}
     .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
     .search-wrap{position:relative;display:flex;align-items:center}
-    .search-wrap input{padding-right:32px;min-width:250px}
+    .search-wrap input[type="search"]{padding-right:60px;min-width:250px}
     .search-tip{position:absolute;right:8px;width:18px;height:18px;border-radius:50%;border:1px solid var(--border);color:var(--muted);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;background:var(--surface2)}
+    .color-button{position:absolute;right:32px;width:20px;height:20px;border-radius:50%;padding:0;border:1px solid var(--border);background:conic-gradient(#e8102d,#f4ed2a,#00ae43,#0088d6,#b500b5,#e8102d);box-shadow:inset 0 0 0 3px var(--surface);font-size:0}
+    .color-button:hover{filter:saturate(1.1);background:conic-gradient(#e8102d,#f4ed2a,#00ae43,#0088d6,#b500b5,#e8102d)}
+    .color-picker{position:absolute;right:32px;width:20px;height:20px;opacity:0;pointer-events:none}
     input,select,button{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;font-size:13px}
     button{cursor:pointer}
     button:hover{background:var(--surface2)}
@@ -39,6 +42,8 @@
     .alert-panel ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
     .alert-panel li{font-size:13px;color:var(--muted)}
     .alert-panel a{color:var(--accent);text-decoration:none}
+    .alert-more{margin-top:8px;font-size:12px;padding:5px 8px}
+    .alert-extra[hidden]{display:none}
     .new-in li{font-weight:800;color:var(--text)}
     .no-alerts{color:var(--dim);font-size:13px}
     .saved-list{background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}
@@ -105,6 +110,8 @@
     <div class="controls">
       <div class="search-wrap">
         <input id="search" type="search" placeholder="Search color, HEX, type, SKU..." aria-describedby="search-tip">
+        <button class="color-button" id="color-button" type="button" title="Choose a color" aria-label="Choose a color"></button>
+        <input class="color-picker" id="color-picker" type="color" value="#f24573" aria-label="Selected search color">
         <span class="search-tip" id="search-tip" title="Color names match text; HEX searches show closest swatch colors across all filament types.">?</span>
       </div>
       <select id="status">
@@ -141,6 +148,8 @@ const POLL_MS=60*60*1000;
 const NOTIFY_KEY="gigapartsNotifyInStock";
 const SAVED_KEY="gigapartsSavedFilaments";
 const BROWSER_ID_KEY="gigapartsBrowserListId";
+const MAX_SAVED_ITEMS=500;
+const MAX_SAVED_BYTES=200000;
 let query="", statusFilter="all", sortMode="line";
 let activeBrand=BRANDS[0]||"Filament";
 let currentItems=new Map();
@@ -151,6 +160,7 @@ const money=v=>typeof v==="number"?"$"+v.toFixed(2):"";
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const words=(line,item)=>[line.brand,line.name,line.group,item.name,item.color,item.hex,item.sku,item.productId].join(" ").toLowerCase();
 const itemId=(line,item)=>`${line.brand||""}|${line.name}|${item.productId||item.sku||item.name}`;
+const legacyItemId=(line,item)=>`${line.name}|${item.productId||item.sku||item.name}`;
 function normalizeHex(value){
   const raw=String(value||"").trim().replace(/^#/,"");
   if(/^[0-9a-f]{3}$/i.test(raw))return raw.split("").map(ch=>ch+ch).join("").toLowerCase();
@@ -167,12 +177,12 @@ function colorDistance(a,b){
   if(!ar||!br)return Infinity;
   return Math.hypot(ar[0]-br[0],ar[1]-br[1],ar[2]-br[2]);
 }
-function updateColorMatches(){
+function updateColorMatches(lines=DATA.lines){
   colorMatchKeys=new Set();
   const target=normalizeHex(query);
   if(!target)return;
   const ranked=[];
-  for(const line of DATA.lines){
+  for(const line of lines){
     for(const item of line.items){
       if(!item.hex)continue;
       ranked.push({key:itemId(line,item),dist:colorDistance(target,item.hex)});
@@ -193,12 +203,14 @@ function browserListId(){
   }
   return id;
 }
-function flatten(data){
+function flatten(data,includeLegacy=false){
   const map=new Map();
   for(const line of data.lines){
     for(const item of line.items){
       const key=itemId(line,item);
-      map.set(key,{key,brand:line.brand,line:line.name,group:line.group,...item});
+      const entry={key,brand:line.brand,line:line.name,group:line.group,...item};
+      map.set(key,entry);
+      if(includeLegacy)map.set(legacyItemId(line,item),entry);
     }
   }
   return map;
@@ -248,22 +260,38 @@ function renderSummary(filteredLines){
 }
 function loadSaved(){
   try{
-    return JSON.parse(localStorage.getItem(SAVED_KEY)||"[]");
+    const raw=localStorage.getItem(SAVED_KEY)||"[]";
+    if(raw.length>MAX_SAVED_BYTES){
+      localStorage.removeItem(SAVED_KEY);
+      return [];
+    }
+    const parsed=JSON.parse(raw);
+    if(!Array.isArray(parsed))return [];
+    return parsed.filter(item=>item&&typeof item==="object"&&typeof item.key==="string").slice(0,MAX_SAVED_ITEMS);
   }catch(error){
     return [];
   }
 }
 function saveSaved(items){
-  localStorage.setItem(SAVED_KEY,JSON.stringify(items));
+  localStorage.setItem(SAVED_KEY,JSON.stringify(items.slice(0,MAX_SAVED_ITEMS)));
 }
 function savedWithFreshStock(){
-  const current=flatten(DATA);
-  return loadSaved().map(item=>current.get(item.key)||item);
+  const current=flatten(DATA,true);
+  const saved=loadSaved();
+  let changed=false;
+  const fresh=saved.map(item=>{
+    const currentItem=current.get(item.key);
+    if(!currentItem)return item;
+    if(currentItem.key!==item.key)changed=true;
+    return currentItem;
+  });
+  if(changed)saveSaved(fresh);
+  return fresh;
 }
 function addSavedItem(key){
   const item=currentItems.get(key);
   if(!item)return;
-  const saved=loadSaved();
+  const saved=savedWithFreshStock();
   if(!saved.some(row=>row.key===key)){
     saved.push({key,...item});
     saveSaved(saved);
@@ -327,15 +355,25 @@ function renderSavedList(){
     </li>`).join("")}</ul>`:`<div class="empty">No saved filament yet. Hover a filament and choose Save to List.</div>`}`;
 }
 function renderAlerts(changes=DATA.changes||{inStock:[],outOfStock:[]}){
-  const list=(items,bold)=>items.length?`<ul>${items.slice(0,12).map(item=>`<li><a href="${esc(item.url)}" target="_blank" rel="noreferrer">${item.brand?esc(item.brand)+" - ":""}${esc(item.line)} - ${esc(item.name)}</a>${item.sku?` <span>(${esc(item.sku)})</span>`:""}</li>`).join("")}${items.length>12?`<li>+${items.length-12} more</li>`:""}</ul>`:`<div class="no-alerts">No changes in this snapshot.</div>`;
+  const alertKey=item=>`${item.brand||""}|${item.line||""}|${item.productId||item.sku||item.name||""}`;
+  const outKeys=new Set((changes.outOfStock||[]).map(alertKey));
+  const outItems=(changes.outOfStock||[]).slice(0,100);
+  const inItems=(changes.inStock||[]).filter(item=>!outKeys.has(alertKey(item))).slice(0,100);
+  const row=(item,attrs="")=>`<li${attrs}><a href="${esc(item.url)}" target="_blank" rel="noreferrer">${item.brand?esc(item.brand)+" - ":""}${esc(item.line)} - ${esc(item.name)}</a>${item.sku?` <span>(${esc(item.sku)})</span>`:""}</li>`;
+  const list=(items,id)=>{
+    if(!items.length)return `<div class="no-alerts">No changes in this snapshot.</div>`;
+    const visible=items.slice(0,12);
+    const hidden=items.slice(12);
+    return `<ul>${visible.map(item=>row(item)).join("")}${hidden.map(item=>row(item,` class="alert-extra" data-alert-extra="${id}" hidden`)).join("")}</ul>${hidden.length?`<button class="alert-more" type="button" data-alert-more="${id}" aria-expanded="false">+${hidden.length} more</button>`:""}`;
+  };
   $("alerts").innerHTML=`
     <article class="alert-panel new-out">
       <h2>Newly Out of Stock</h2>
-      ${list(changes.outOfStock||[],false)}
+      ${list(outItems,"out")}
     </article>
     <article class="alert-panel new-in">
       <h2>Newly In Stock</h2>
-      ${list(changes.inStock||[],true)}
+      ${list(inItems,"in")}
     </article>`;
 }
 function groupStats(lines){
@@ -368,9 +406,9 @@ function lineHtml(line){
 }
 function render(){
   currentItems=new Map();
-  updateColorMatches();
   if(!BRANDS.includes(activeBrand))activeBrand=BRANDS[0]||"Filament";
   const brandLines=DATA.lines.filter(line=>(line.brand||"Filament")===activeBrand);
+  updateColorMatches(brandLines);
   const lines=brandLines.map(line=>({...line,items:visibleItems(line)})).filter(line=>line.items.length);
   renderAlerts();
   renderSavedList();
@@ -449,6 +487,12 @@ function sendInStockNotifications(items){
 }
 updateTimestamp();
 $("search").addEventListener("input",e=>{query=e.target.value.trim().toLowerCase();render();});
+$("color-button").addEventListener("click",()=>{$("color-picker").click();});
+$("color-picker").addEventListener("input",e=>{
+  query=e.target.value.toLowerCase();
+  $("search").value=query;
+  render();
+});
 $("status").addEventListener("change",e=>{statusFilter=e.target.value;render();});
 $("sort").addEventListener("change",e=>{sortMode=e.target.value;render();});
 $("notify").addEventListener("click",toggleNotifications);
@@ -462,6 +506,17 @@ $("saved-list").addEventListener("click",e=>{
     saveSaved([]);
     renderSavedList();
   }
+});
+$("alerts").addEventListener("click",e=>{
+  const more=e.target.closest("[data-alert-more]");
+  if(!more)return;
+  const id=more.dataset.alertMore;
+  const expanded=more.getAttribute("aria-expanded")==="true";
+  for(const item of document.querySelectorAll(`[data-alert-extra="${id}"]`)){
+    item.hidden=expanded;
+  }
+  more.setAttribute("aria-expanded",String(!expanded));
+  more.textContent=expanded?`+${document.querySelectorAll(`[data-alert-extra="${id}"]`).length} more`:"Show fewer";
 });
 $("brand-tabs").addEventListener("click",e=>{
   const tab=e.target.closest("[data-brand]");

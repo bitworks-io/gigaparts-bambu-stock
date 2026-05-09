@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-09T13:48:21+00:00",
-  "previousUpdatedAt": "2026-05-09T11:09:56+00:00",
+  "updatedAt": "2026-05-09T15:08:59+00:00",
+  "previousUpdatedAt": "2026-05-09T13:48:21+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -2281,7 +2281,7 @@
           "hex": "#39541a",
           "sku": "3DPF281",
           "productId": "38236",
-          "inStock": true,
+          "inStock": false,
           "price": 22.99,
           "url": "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html?sku=3DPF281#product-38236"
         },
@@ -4714,7 +4714,19 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": []
+    "outOfStock": [
+      {
+        "brand": "Bambu",
+        "line": "PETG HF",
+        "group": "PETG",
+        "name": "Forest Green (1kg, Spool)",
+        "sku": "3DPF281",
+        "productId": "38236",
+        "url": "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html?sku=3DPF281#product-38236",
+        "price": 22.99,
+        "inStock": false
+      }
+    ]
   },
   "errors": []
 }

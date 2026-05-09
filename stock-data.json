@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-09T04:32:45+00:00",
-  "previousUpdatedAt": "2026-05-09T00:07:43+00:00",
+  "updatedAt": "2026-05-09T07:19:52+00:00",
+  "previousUpdatedAt": "2026-05-09T04:32:45+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -3160,7 +3160,7 @@
           "sku": "3DPM0242",
           "productId": "38470",
           "inStock": true,
-          "price": 14.99,
+          "price": 19.99,
           "url": "https://www.gigaparts.com/polymaker-panchroma-basic-pla-3d-printer-filament.html?sku=3DPM0242#product-38470"
         },
         {
@@ -4546,7 +4546,7 @@
           "sku": "3DPM0384",
           "productId": "38531",
           "inStock": true,
-          "price": 19.99,
+          "price": 14.99,
           "url": "https://www.gigaparts.com/polymaker-petg-3d-printer-filament.html?sku=3DPM0384#product-38531"
         },
         {

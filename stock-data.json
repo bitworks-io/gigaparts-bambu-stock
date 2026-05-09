@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-09T17:08:44+00:00",
-  "previousUpdatedAt": "2026-05-09T15:08:59+00:00",
+  "updatedAt": "2026-05-09T19:19:01+00:00",
+  "previousUpdatedAt": "2026-05-09T17:08:44+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -4714,30 +4714,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "brand": "Bambu",
-        "line": "PETG CF",
-        "group": "PETG",
-        "name": "Titan Gray (1kg, Spool)",
-        "sku": "3DPF169",
-        "productId": "28894",
-        "url": "https://www.gigaparts.com/bambu-lab-petg-cf-3d-printer-filament.html?sku=3DPF169#product-28894",
-        "price": 34.99,
-        "inStock": false
-      },
-      {
-        "brand": "Bambu",
-        "line": "PLA Basic",
-        "group": "PLA",
-        "name": "Blue (1kg, Refill)",
-        "sku": "3DPF206",
-        "productId": "32371",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-basic-3d-printer-filament.html?sku=3DPF206#product-32371",
-        "price": 19.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

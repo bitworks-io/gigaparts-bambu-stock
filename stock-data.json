@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-10T00:00:10+00:00",
-  "previousUpdatedAt": "2026-05-09T23:01:15+00:00",
+  "updatedAt": "2026-05-10T04:10:13+00:00",
+  "previousUpdatedAt": "2026-05-10T00:00:10+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -4714,19 +4714,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "brand": "Bambu",
-        "line": "PLA Basic Gradient",
-        "group": "PLA",
-        "name": "Solar Breeze (1kg, Spool)",
-        "sku": "3DPF012",
-        "productId": "28759",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-basic-gradient-3d-printer-filament.html?sku=3DPF012#product-28759",
-        "price": 24.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

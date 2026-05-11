@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-11T04:23:08+00:00",
-  "previousUpdatedAt": "2026-05-11T00:05:11+00:00",
+  "updatedAt": "2026-05-11T08:33:25+00:00",
+  "previousUpdatedAt": "2026-05-11T04:23:08+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -1421,7 +1421,7 @@
           "hex": "#e8afcf",
           "sku": "3DPF234",
           "productId": "32732",
-          "inStock": true,
+          "inStock": false,
           "price": 19.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF234#product-32732"
         },
@@ -3140,7 +3140,7 @@
           "sku": "3DPM0240",
           "productId": "38468",
           "inStock": true,
-          "price": 19.99,
+          "price": 14.99,
           "url": "https://www.gigaparts.com/polymaker-panchroma-basic-pla-3d-printer-filament.html?sku=3DPM0240#product-38468"
         },
         {
@@ -3410,7 +3410,7 @@
           "sku": "3DPM0267",
           "productId": "38495",
           "inStock": true,
-          "price": 12.99,
+          "price": 17.99,
           "url": "https://www.gigaparts.com/polymaker-panchroma-basic-pla-3d-printer-filament.html?sku=3DPM0267#product-38495"
         },
         {
@@ -4714,7 +4714,19 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": []
+    "outOfStock": [
+      {
+        "brand": "Bambu",
+        "line": "PLA Matte",
+        "group": "PLA",
+        "name": "Sakura Pink (1kg, Refill)",
+        "sku": "3DPF234",
+        "productId": "32732",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF234#product-32732",
+        "price": 19.99,
+        "inStock": false
+      }
+    ]
   },
   "errors": []
 }

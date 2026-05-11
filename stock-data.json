@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-11T19:11:19+00:00",
-  "previousUpdatedAt": "2026-05-11T16:10:47+00:00",
+  "updatedAt": "2026-05-11T21:38:51+00:00",
+  "previousUpdatedAt": "2026-05-11T19:11:19+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -911,7 +911,7 @@
           "hex": "",
           "sku": "3DPF054",
           "productId": "28801",
-          "inStock": true,
+          "inStock": false,
           "price": 24.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-silk-multi-color-3d-printer-filament.html?sku=3DPF054#product-28801"
         },
@@ -1541,7 +1541,7 @@
           "hex": "#56b6e6",
           "sku": "3DPF362",
           "productId": "33831",
-          "inStock": true,
+          "inStock": false,
           "price": 19.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF362#product-33831"
         },
@@ -4714,7 +4714,30 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": []
+    "outOfStock": [
+      {
+        "brand": "Bambu",
+        "line": "PLA Matte",
+        "group": "PLA",
+        "name": "Sky Blue (1kg, Refill)",
+        "sku": "3DPF362",
+        "productId": "33831",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF362#product-33831",
+        "price": 19.99,
+        "inStock": false
+      },
+      {
+        "brand": "Bambu",
+        "line": "PLA Silk Multi-Color",
+        "group": "PLA",
+        "name": "Gilded Rose (Pink-Gold) (1kg, Spool)",
+        "sku": "3DPF054",
+        "productId": "28801",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-silk-multi-color-3d-printer-filament.html?sku=3DPF054#product-28801",
+        "price": 24.99,
+        "inStock": false
+      }
+    ]
   },
   "errors": []
 }

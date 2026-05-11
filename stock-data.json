@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-11T08:33:25+00:00",
-  "previousUpdatedAt": "2026-05-11T04:23:08+00:00",
+  "updatedAt": "2026-05-11T12:20:53+00:00",
+  "previousUpdatedAt": "2026-05-11T08:33:25+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -4714,19 +4714,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "brand": "Bambu",
-        "line": "PLA Matte",
-        "group": "PLA",
-        "name": "Sakura Pink (1kg, Refill)",
-        "sku": "3DPF234",
-        "productId": "32732",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF234#product-32732",
-        "price": 19.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

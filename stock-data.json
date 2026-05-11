@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-11T12:20:53+00:00",
-  "previousUpdatedAt": "2026-05-11T08:33:25+00:00",
+  "updatedAt": "2026-05-11T16:10:47+00:00",
+  "previousUpdatedAt": "2026-05-11T12:20:53+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -2485,7 +2485,7 @@
           "hex": "#000000",
           "sku": "3DPF323",
           "productId": "33037",
-          "inStock": true,
+          "inStock": false,
           "price": 38.99,
           "url": "https://www.gigaparts.com/bambu-lab-tpu-for-ams-3d-printer-filament.html?sku=3DPF323#product-33037"
         },
@@ -4714,7 +4714,19 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": []
+    "outOfStock": [
+      {
+        "brand": "Bambu",
+        "line": "TPU for AMS",
+        "group": "TPU",
+        "name": "Black (1kg, Spool)",
+        "sku": "3DPF323",
+        "productId": "33037",
+        "url": "https://www.gigaparts.com/bambu-lab-tpu-for-ams-3d-printer-filament.html?sku=3DPF323#product-33037",
+        "price": 38.99,
+        "inStock": false
+      }
+    ]
   },
   "errors": []
 }

@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-11T23:08:44+00:00",
-  "previousUpdatedAt": "2026-05-11T21:38:51+00:00",
+  "updatedAt": "2026-05-12T04:02:22+00:00",
+  "previousUpdatedAt": "2026-05-11T23:08:44+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -4714,19 +4714,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "brand": "Bambu",
-        "line": "PLA Wood",
-        "group": "PLA",
-        "name": "Classic Birch (1kg, Spool)",
-        "sku": "3DPF316",
-        "productId": "33105",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-wood-3d-printer-filament.html?sku=3DPF316#product-33105",
-        "price": 24.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

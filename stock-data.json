@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-12T18:15:31+00:00",
-  "previousUpdatedAt": "2026-05-12T15:45:01+00:00",
+  "updatedAt": "2026-05-12T20:48:21+00:00",
+  "previousUpdatedAt": "2026-05-12T18:15:31+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -4714,19 +4714,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "brand": "Bambu",
-        "line": "PLA Matte",
-        "group": "PLA",
-        "name": "Marine Blue (1kg, Spool)",
-        "sku": "3DPF027",
-        "productId": "28774",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF027#product-28774",
-        "price": 22.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

@@ -90,13 +90,49 @@ PRODUCTS = [
     {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pc-fr-3d-printer-filament.html"},
     {"brand": "Bambu", "url": "https://www.gigaparts.com/bambu-lab-pa6-gf-3d-printer-filament.html"},
     {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-basic-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-dual-matte-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-dual-silk-pla-3d-printer-filament.html"},
     {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-matte-pla-3d-printer-filament.html"},
     {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-starlight-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-metallic-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-neon-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-satin-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-translucent-pla-3d-printer-filament.html"},
     {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-gradient-starlight-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-gradient-celestial-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-gradient-crystal-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-gradient-galaxy-pla-3d-printer-filament.html"},
     {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-glow-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-luminous-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-marble-pla-3d-printer-filament.html"},
     {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-gradient-matte-pla-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-gradient-silk-pla-3d-printer-filament.html"},
     {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-polylite-metallic-pla-pro-metallic-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-polylite-pla-pro-3d-printer-filament.html"},
     {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-petg-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-polymax-petg-3d-printer-filament.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-fiberon-petg-esd-black-1-75mm-1kg-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-fiberon-petg-rcf08-black-1-75mm-500g-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-fiberon-pa6-gf25-grey-1-75mm-500g-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-fiberon-pa6-cf20-black-1-75mm-500g-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-fiberon-pa12-cf10-black-1-75mm-500g-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-fiberon-pa612-cf15-black-1-75mm-500g-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-fiberon-pa612-esd-black-1-75mm-500g-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-fiberon-pet-gf15light-grey-1-75mm-1kg-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-fiberon-pet-gf15red-1-75mm-1kg-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-fiberon-pps-cf10-black-1-75mm-500g-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-fiberon-asa-cf08-black-1-75-mm-0-5-kg-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-fiberon-pps-gf20-grey-1-75-mm-0-5-kg-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-polyflex-tpu95-black-1-75mm-750g-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-polyflex-tpu90black-1-75mm-750g-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-polyflex-tpu95-hf-black-1-75mm-1kg-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-polylite-abs-black-1-75mm-1kg-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-polylite-asa-black-1-75mm-1kg-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-polylite-lw-pla-white-1-75mm-800g-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-polysupport-pearl-white-1-75mm-750g-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-polysupport-grass-green-1-75mm-500g-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-cope-drab-green-1-75mm-1kg-filament-spool.html"},
+    {"brand": "Polymaker", "url": "https://www.gigaparts.com/polymaker-panchroma-cope-stone-blue-1-75mm-1kg-filament-spool.html"},
 ]
 
 
@@ -243,9 +279,9 @@ def short_line_name(name: str) -> str:
 
 def group_for_line(line: str) -> str:
     upper = line.upper()
-    for group in ("PLA", "PETG", "TPU", "ABS", "ASA", "PC", "PA"):
+    for group in ("PLA", "PETG", "PET", "TPU", "ABS", "ASA", "PC", "PA", "PPS", "SUPPORT"):
         if upper.startswith(group) or f" {group}" in upper:
-            return group
+            return "Support" if group == "SUPPORT" else group
     return "Other"
 
 
@@ -319,7 +355,7 @@ def parse_product(brand: str, url: str, source: str) -> dict[str, Any]:
         except (TypeError, ValueError):
             price = None
         availability = offers.get("availability", "") if isinstance(offers, dict) else ""
-        in_stock = "InStock" in availability or "BackOrder" in availability
+        in_stock = "InStock" in availability
         sku = ld_product.get("sku", "")
         product_id = page_product_id or str(ld_product.get("productID", ""))
         return {
@@ -608,7 +644,7 @@ def render_html(data: dict[str, Any]) -> str:
 </footer>
 <script>
 let DATA={payload};
-const GROUP_ORDER=["PLA","PETG","TPU","ABS","ASA","PC","PA","Other"];
+const GROUP_ORDER=["PLA","PETG","PET","TPU","ABS","ASA","PC","PA","PPS","Support","Other"];
 const BRANDS=[...new Set(DATA.lines.map(line=>line.brand||"Filament"))];
 const POLL_MS=60*60*1000;
 const NOTIFY_KEY="gigapartsNotifyInStock";

@@ -552,6 +552,7 @@ def render_html(data: dict[str, Any]) -> str:
     .saved-head{{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border-bottom:1px solid var(--border);flex-wrap:wrap}}
     .saved-head h2{{font-size:15px;margin:0}}
     .saved-actions{{display:flex;gap:8px;align-items:center;flex-wrap:wrap}}
+    .saved-note{{color:var(--muted);font-size:12px;margin:8px 12px 0}}
     .saved-items{{list-style:none;margin:0;padding:0}}
     .saved-items li{{display:grid;grid-template-columns:minmax(180px,1fr) auto auto;gap:10px;align-items:center;padding:10px 12px;border-top:1px solid var(--border);font-size:13px}}
     .saved-items li:first-child{{border-top:0}}
@@ -850,6 +851,7 @@ function renderSavedList(){{
         <button id="clear-list" type="button" ${{items.length?"":"disabled"}}>Clear</button>
       </div>
     </div>
+    <div class="saved-note">Saved items are included in browser notifications when they newly come in stock while this page is open.</div>
     ${{items.length?`<ul class="saved-items">${{items.map(item=>`<li>
       <div class="saved-main"><strong>${{item.brand?esc(item.brand)+" - ":""}}${{esc(item.line)}} - ${{esc(item.name)}}</strong><span>${{item.sku?esc(item.sku)+" - ":""}}${{item.price!=null?money(item.price):""}}</span></div>
       <span class="saved-status ${{item.inStock?"in":"out"}}">${{item.inStock?"In stock":"Out of stock"}}</span>
@@ -979,12 +981,23 @@ async function toggleNotifications(){{
 }}
 function sendInStockNotifications(items){{
   if(!notificationEnabled()||!items.length)return;
-  const shown=items.slice(0,4);
+  const savedKeys=new Set(savedWithFreshStock().map(item=>item.key));
+  const savedItems=items.filter(item=>savedKeys.has(item.key));
+  const savedShown=savedItems.slice(0,4);
+  for(const item of savedShown){{
+    new Notification(`${{item.brand?item.brand+" - ":""}}${{item.line}} saved filament in stock`,{{body:item.sku?`${{item.name}} (${{item.sku}})`:item.name}});
+  }}
+  if(savedItems.length>savedShown.length){{
+    new Notification("More saved GigaParts filament in stock",{{body:`${{savedItems.length-savedShown.length}} additional saved variants became available.`}});
+  }}
+  const savedItemKeys=new Set(savedItems.map(item=>item.key));
+  const otherItems=items.filter(item=>!savedItemKeys.has(item.key));
+  const shown=otherItems.slice(0,4);
   for(const item of shown){{
     new Notification(`${{item.brand?item.brand+" - ":""}}${{item.line}} in stock`,{{body:item.sku?`${{item.name}} (${{item.sku}})`:item.name}});
   }}
-  if(items.length>shown.length){{
-    new Notification("More GigaParts filament in stock",{{body:`${{items.length-shown.length}} additional variants became available.`}});
+  if(otherItems.length>shown.length){{
+    new Notification("More GigaParts filament in stock",{{body:`${{otherItems.length-shown.length}} additional variants became available.`}});
   }}
 }}
 updateTimestamp();

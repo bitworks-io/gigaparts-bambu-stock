@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-13T00:12:15+00:00",
-  "previousUpdatedAt": "2026-05-12T22:21:31+00:00",
+  "updatedAt": "2026-05-13T04:57:57+00:00",
+  "previousUpdatedAt": "2026-05-13T00:12:15+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -2721,7 +2721,7 @@
           "hex": "#ffc72c",
           "sku": "3DPF252",
           "productId": "32418",
-          "inStock": true,
+          "inStock": false,
           "price": 19.99,
           "url": "https://www.gigaparts.com/bambu-lab-abs-3d-printer-filament.html?sku=3DPF252#product-32418"
         },
@@ -4714,7 +4714,19 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": []
+    "outOfStock": [
+      {
+        "brand": "Bambu",
+        "line": "ABS",
+        "group": "ABS",
+        "name": "Tangerine Yellow (1kg, Refill)",
+        "sku": "3DPF252",
+        "productId": "32418",
+        "url": "https://www.gigaparts.com/bambu-lab-abs-3d-printer-filament.html?sku=3DPF252#product-32418",
+        "price": 19.99,
+        "inStock": false
+      }
+    ]
   },
   "errors": []
 }

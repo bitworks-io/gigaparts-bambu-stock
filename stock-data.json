@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-14T00:13:23+00:00",
-  "previousUpdatedAt": "2026-05-13T22:22:56+00:00",
+  "updatedAt": "2026-05-14T04:56:41+00:00",
+  "previousUpdatedAt": "2026-05-14T00:13:23+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -6142,19 +6142,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "brand": "Bambu",
-        "line": "PLA Silk Multi-Color",
-        "group": "PLA",
-        "name": "Blue Hawaii (Blue-Green) (1kg, Spool)",
-        "sku": "3DPF057",
-        "productId": "28804",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-silk-multi-color-3d-printer-filament.html?sku=3DPF057#product-28804",
-        "price": 24.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

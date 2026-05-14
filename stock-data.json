@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-14T07:53:15+00:00",
-  "previousUpdatedAt": "2026-05-14T04:56:41+00:00",
+  "updatedAt": "2026-05-14T10:31:35+00:00",
+  "previousUpdatedAt": "2026-05-14T07:53:15+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -1790,144 +1790,14 @@
       "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html",
       "items": [
         {
-          "name": "Blue (1kg, Refill)",
-          "color": "Blue",
-          "hex": "#2a4b91",
-          "sku": "",
-          "productId": "33086",
+          "name": "Default",
+          "color": "",
+          "hex": "",
+          "sku": "3DP-PETG-BASIC",
+          "productId": "36384",
           "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-33086"
-        },
-        {
-          "name": "Gold (1kg, Spool)",
-          "color": "Gold",
-          "hex": "#ab8b3f",
-          "sku": "",
-          "productId": "28883",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28883"
-        },
-        {
-          "name": "Yellow (1kg, Spool)",
-          "color": "Yellow",
-          "hex": "#f4ed2a",
-          "sku": "",
-          "productId": "28882",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28882"
-        },
-        {
-          "name": "Natural (1kg, Spool)",
-          "color": "Natural",
-          "hex": "#f0e2c7",
-          "sku": "",
-          "productId": "28881",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28881"
-        },
-        {
-          "name": "White (1kg, Spool)",
-          "color": "White",
-          "hex": "#ffffff",
-          "sku": "",
-          "productId": "28880",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28880"
-        },
-        {
-          "name": "Red (1kg, Spool)",
-          "color": "Red",
-          "hex": "#e8102d",
-          "sku": "",
-          "productId": "28879",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28879"
-        },
-        {
-          "name": "Dark Gray (1kg, Spool)",
-          "color": "Dark Gray",
-          "hex": "#515151",
-          "sku": "",
-          "productId": "28877",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28877"
-        },
-        {
-          "name": "Green (1kg, Spool)",
-          "color": "Green",
-          "hex": "#0b8f42",
-          "sku": "",
-          "productId": "28876",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28876"
-        },
-        {
-          "name": "Gray (1kg, Spool)",
-          "color": "Gray",
-          "hex": "#878787",
-          "sku": "",
-          "productId": "28875",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28875"
-        },
-        {
-          "name": "Blue (1kg, Spool)",
-          "color": "Blue",
-          "hex": "#2a4b91",
-          "sku": "",
-          "productId": "28873",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28873"
-        },
-        {
-          "name": "Purple (1kg, Spool)",
-          "color": "Purple",
-          "hex": "#b500b5",
-          "sku": "",
-          "productId": "28872",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28872"
-        },
-        {
-          "name": "Blue Gray (1kg, Spool)",
-          "color": "Blue Gray",
-          "hex": "#5b6579",
-          "sku": "",
-          "productId": "28871",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28871"
-        },
-        {
-          "name": "Clear (1kg, Spool)",
-          "color": "Clear",
-          "hex": "#dcebf2",
-          "sku": "",
-          "productId": "28870",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28870"
-        },
-        {
-          "name": "Orange (1kg, Spool)",
-          "color": "Orange",
-          "hex": "#ff4800",
-          "sku": "",
-          "productId": "28869",
-          "inStock": false,
-          "price": 0,
-          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html#product-28869"
+          "price": 0.0,
+          "url": "https://www.gigaparts.com/bambu-lab-petg-basic-3d-printer-filament.html?sku=3DP-PETG-BASIC#product-36384"
         }
       ]
     },

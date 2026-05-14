@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-14T18:06:02+00:00",
-  "previousUpdatedAt": "2026-05-14T15:29:31+00:00",
+  "updatedAt": "2026-05-14T20:01:39+00:00",
+  "previousUpdatedAt": "2026-05-14T18:06:02+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -1961,7 +1961,7 @@
           "hex": "#2a4b91",
           "sku": "3DPF161",
           "productId": "31853",
-          "inStock": true,
+          "inStock": false,
           "price": 22.99,
           "url": "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html?sku=3DPF161#product-31853"
         },
@@ -6012,7 +6012,19 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": []
+    "outOfStock": [
+      {
+        "brand": "Bambu",
+        "line": "PETG HF",
+        "group": "PETG",
+        "name": "Blue (1kg, Spool)",
+        "sku": "3DPF161",
+        "productId": "31853",
+        "url": "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html?sku=3DPF161#product-31853",
+        "price": 22.99,
+        "inStock": false
+      }
+    ]
   },
   "errors": []
 }

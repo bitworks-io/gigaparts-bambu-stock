@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-14T20:01:39+00:00",
-  "previousUpdatedAt": "2026-05-14T18:06:02+00:00",
+  "updatedAt": "2026-05-14T21:21:05+00:00",
+  "previousUpdatedAt": "2026-05-14T20:01:39+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -1501,7 +1501,7 @@
           "hex": "#ae835b",
           "sku": "3DPF366",
           "productId": "33827",
-          "inStock": true,
+          "inStock": false,
           "price": 19.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF366#product-33827"
         },
@@ -6015,13 +6015,13 @@
     "outOfStock": [
       {
         "brand": "Bambu",
-        "line": "PETG HF",
-        "group": "PETG",
-        "name": "Blue (1kg, Spool)",
-        "sku": "3DPF161",
-        "productId": "31853",
-        "url": "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html?sku=3DPF161#product-31853",
-        "price": 22.99,
+        "line": "PLA Matte",
+        "group": "PLA",
+        "name": "Caramel (1kg, Refill)",
+        "sku": "3DPF366",
+        "productId": "33827",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF366#product-33827",
+        "price": 19.99,
         "inStock": false
       }
     ]

@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-14T23:09:52+00:00",
-  "previousUpdatedAt": "2026-05-14T21:21:05+00:00",
+  "updatedAt": "2026-05-15T04:14:45+00:00",
+  "previousUpdatedAt": "2026-05-14T23:09:52+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -659,7 +659,7 @@
           "hex": "#396a9e",
           "sku": "3DPF043",
           "productId": "28790",
-          "inStock": true,
+          "inStock": false,
           "price": 24.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-metal-3d-printer-filament.html?sku=3DPF043#product-28790"
         },
@@ -1431,7 +1431,7 @@
           "hex": "#042e56",
           "sku": "3DPF227",
           "productId": "32733",
-          "inStock": true,
+          "inStock": false,
           "price": 19.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF227#product-32733"
         },
@@ -6012,7 +6012,30 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": []
+    "outOfStock": [
+      {
+        "brand": "Bambu",
+        "line": "PLA Matte",
+        "group": "PLA",
+        "name": "Dark Blue (1kg, Refill)",
+        "sku": "3DPF227",
+        "productId": "32733",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF227#product-32733",
+        "price": 19.99,
+        "inStock": false
+      },
+      {
+        "brand": "Bambu",
+        "line": "PLA Metal",
+        "group": "PLA",
+        "name": "Cobalt Blue Metallic (1kg, Spool)",
+        "sku": "3DPF043",
+        "productId": "28790",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-metal-3d-printer-filament.html?sku=3DPF043#product-28790",
+        "price": 24.99,
+        "inStock": false
+      }
+    ]
   },
   "errors": []
 }

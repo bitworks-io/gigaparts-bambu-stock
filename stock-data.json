@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-15T22:10:10+00:00",
-  "previousUpdatedAt": "2026-05-15T20:22:25+00:00",
+  "updatedAt": "2026-05-16T00:03:56+00:00",
+  "previousUpdatedAt": "2026-05-15T22:10:10+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -6012,30 +6012,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "brand": "Bambu",
-        "line": "ASA",
-        "group": "ASA",
-        "name": "Blue (1kg, Spool)",
-        "sku": "3DPF117",
-        "productId": "28859",
-        "url": "https://www.gigaparts.com/bambu-lab-asa-3d-printer-filament.html?sku=3DPF117#product-28859",
-        "price": 29.99,
-        "inStock": false
-      },
-      {
-        "brand": "Bambu",
-        "line": "PLA Basic",
-        "group": "PLA",
-        "name": "Silver (1kg, Spool)",
-        "sku": "3DPF006",
-        "productId": "28753",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-basic-3d-printer-filament.html?sku=3DPF006#product-28753",
-        "price": 22.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-16T17:12:42+00:00",
-  "previousUpdatedAt": "2026-05-16T15:12:58+00:00",
+  "updatedAt": "2026-05-16T19:21:19+00:00",
+  "previousUpdatedAt": "2026-05-16T17:12:42+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -1301,7 +1301,7 @@
           "hex": "#ffffff",
           "sku": "3DPF040",
           "productId": "28787",
-          "inStock": true,
+          "inStock": false,
           "price": 22.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF040#product-28787"
         },
@@ -1981,7 +1981,7 @@
           "hex": "#e8102d",
           "sku": "3DPF165",
           "productId": "31856",
-          "inStock": true,
+          "inStock": false,
           "price": 22.99,
           "url": "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html?sku=3DPF165#product-31856"
         },
@@ -6012,7 +6012,30 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": []
+    "outOfStock": [
+      {
+        "brand": "Bambu",
+        "line": "PETG HF",
+        "group": "PETG",
+        "name": "Red (1kg, Spool)",
+        "sku": "3DPF165",
+        "productId": "31856",
+        "url": "https://www.gigaparts.com/bambu-lab-petg-hf-3d-printer-filament.html?sku=3DPF165#product-31856",
+        "price": 22.99,
+        "inStock": false
+      },
+      {
+        "brand": "Bambu",
+        "line": "PLA Matte",
+        "group": "PLA",
+        "name": "Ivory White (1kg, Spool)",
+        "sku": "3DPF040",
+        "productId": "28787",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF040#product-28787",
+        "price": 22.99,
+        "inStock": false
+      }
+    ]
   },
   "errors": []
 }

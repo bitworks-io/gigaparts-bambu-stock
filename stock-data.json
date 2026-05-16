@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-16T03:58:02+00:00",
-  "previousUpdatedAt": "2026-05-16T00:03:56+00:00",
+  "updatedAt": "2026-05-16T06:32:19+00:00",
+  "previousUpdatedAt": "2026-05-16T03:58:02+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -3010,7 +3010,7 @@
           "sku": "3DPM0239",
           "productId": "38467",
           "inStock": true,
-          "price": 14.99,
+          "price": 19.99,
           "url": "https://www.gigaparts.com/polymaker-panchroma-basic-pla-3d-printer-filament.html?sku=3DPM0239#product-38467"
         },
         {
@@ -3250,7 +3250,7 @@
           "sku": "3DPM0263",
           "productId": "38491",
           "inStock": true,
-          "price": 19.99,
+          "price": 14.99,
           "url": "https://www.gigaparts.com/polymaker-panchroma-basic-pla-3d-printer-filament.html?sku=3DPM0263#product-38491"
         },
         {
@@ -6012,19 +6012,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "brand": "Bambu",
-        "line": "PLA Matte",
-        "group": "PLA",
-        "name": "Ice Blue (1kg, Refill)",
-        "sku": "3DPF226",
-        "productId": "32728",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF226#product-32728",
-        "price": 19.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-17T15:14:00+00:00",
-  "previousUpdatedAt": "2026-05-17T13:54:53+00:00",
+  "updatedAt": "2026-05-17T17:11:33+00:00",
+  "previousUpdatedAt": "2026-05-17T15:14:00+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -145,7 +145,7 @@
           "hex": "#5b6579",
           "sku": "3DPF196",
           "productId": "32099",
-          "inStock": true,
+          "inStock": false,
           "price": 19.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-basic-3d-printer-filament.html?sku=3DPF196#product-32099"
         },
@@ -6012,7 +6012,19 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": []
+    "outOfStock": [
+      {
+        "brand": "Bambu",
+        "line": "PLA Basic",
+        "group": "PLA",
+        "name": "Blue Gray (1kg, Refill)",
+        "sku": "3DPF196",
+        "productId": "32099",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-basic-3d-printer-filament.html?sku=3DPF196#product-32099",
+        "price": 19.99,
+        "inStock": false
+      }
+    ]
   },
   "errors": []
 }

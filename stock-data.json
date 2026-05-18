@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-18T10:23:46+00:00",
-  "previousUpdatedAt": "2026-05-18T05:17:05+00:00",
+  "updatedAt": "2026-05-18T14:38:12+00:00",
+  "previousUpdatedAt": "2026-05-18T10:23:46+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -195,7 +195,7 @@
           "hex": "#000000",
           "sku": "3DPF214",
           "productId": "32370",
-          "inStock": false,
+          "inStock": true,
           "price": 19.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-basic-3d-printer-filament.html?sku=3DPF214#product-32370"
         },
@@ -1777,7 +1777,7 @@
           "hex": "#0088d6",
           "sku": "3DPF414",
           "productId": "36438",
-          "inStock": false,
+          "inStock": true,
           "price": 23.99,
           "url": "https://www.gigaparts.com/bambu-lab-pla-tough-plus-3d-printer-filament.html?sku=3DPF414#product-36438"
         }
@@ -6011,7 +6011,30 @@
     }
   ],
   "changes": {
-    "inStock": [],
+    "inStock": [
+      {
+        "brand": "Bambu",
+        "line": "PLA Basic",
+        "group": "PLA",
+        "name": "Black (1kg, Refill)",
+        "sku": "3DPF214",
+        "productId": "32370",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-basic-3d-printer-filament.html?sku=3DPF214#product-32370",
+        "price": 19.99,
+        "inStock": true
+      },
+      {
+        "brand": "Bambu",
+        "line": "PLA Tough+",
+        "group": "PLA",
+        "name": "Cyan (Spool, 1kg)",
+        "sku": "3DPF414",
+        "productId": "36438",
+        "url": "https://www.gigaparts.com/bambu-lab-pla-tough-plus-3d-printer-filament.html?sku=3DPF414#product-36438",
+        "price": 23.99,
+        "inStock": true
+      }
+    ],
     "outOfStock": []
   },
   "errors": []

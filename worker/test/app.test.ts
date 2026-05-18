@@ -148,6 +148,72 @@ describe("notification worker app", () => {
     expect(telegram).toHaveBeenCalledTimes(2);
   });
 
+  it("uses a Telegram chat as a portable saved list across devices", async () => {
+    const store = new MemoryStore();
+    const telegram = vi.fn(async () => new Response(JSON.stringify({ ok: true }), { status: 200 }));
+    const app = createApp({ store, fetcher: telegram });
+    const firstDevice = await store.createDevice("first-token");
+    const secondDevice = await store.createDevice("second-token");
+    await store.replaceSavedItems(firstDevice.id, ["Bambu|PLA Basic|123"]);
+
+    await store.upsertTelegramLink(firstDevice.id, { chatId: "12345", username: "maker" });
+    await store.mergeTelegramSavedItems("12345", await store.savedItems(firstDevice.id));
+    await store.upsertTelegramLink(secondDevice.id, { chatId: "12345", username: "maker" });
+
+    const statusResponse = await app.fetch(
+      new Request(`https://worker.test/api/devices/${secondDevice.id}/telegram-link`, {
+        method: "GET",
+        headers: { authorization: "Bearer second-token" }
+      }),
+      env()
+    );
+    expect(statusResponse.status).toBe(200);
+    expect(await json(statusResponse)).toMatchObject({
+      linked: true,
+      itemKeys: ["Bambu|PLA Basic|123"]
+    });
+
+    const replaceResponse = await app.fetch(
+      new Request(`https://worker.test/api/devices/${secondDevice.id}/saved-items`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          authorization: "Bearer second-token"
+        },
+        body: JSON.stringify({ itemKeys: ["Polymaker|PETG|sku-1"] })
+      }),
+      env()
+    );
+    expect(replaceResponse.status).toBe(204);
+    expect(await store.telegramSavedItems("12345")).toEqual(["Polymaker|PETG|sku-1"]);
+
+    const deliveries: Array<{ channel: string; body: string }> = [];
+    const deliveryApp = createApp({
+      store,
+      deliverTelegram: async (_chatId, payload) => {
+        deliveries.push({ channel: "telegram", body: payload.body });
+      }
+    });
+    const eventResponse = await deliveryApp.fetch(
+      new Request("https://worker.test/api/stock-events", {
+        method: "POST",
+        headers: { "content-type": "application/json", authorization: "Bearer stock-token" },
+        body: JSON.stringify({
+          updatedAt: "2026-05-18T14:00:00Z",
+          changes: {
+            inStock: [
+              { key: "Bambu|PLA Basic|123", brand: "Bambu", line: "PLA Basic", name: "Red" },
+              { key: "Polymaker|PETG|sku-1", brand: "Polymaker", line: "PETG", name: "Blue" }
+            ]
+          }
+        })
+      }),
+      env()
+    );
+    expect(eventResponse.status).toBe(202);
+    expect(deliveries).toEqual([{ channel: "telegram", body: "Blue" }]);
+  });
+
   it("delivers saved stock events to web push and Telegram once", async () => {
     const store = new MemoryStore();
     const deliveries: Array<{ channel: string; title: string; body: string; url: string }> = [];
@@ -168,6 +234,7 @@ describe("notification worker app", () => {
       auth: "auth-key"
     });
     await store.upsertTelegramLink(device.id, { chatId: "12345", username: "maker" });
+    await store.mergeTelegramSavedItems("12345", await store.savedItems(device.id));
     const payload: StockEventPayload = {
       updatedAt: "2026-05-18T12:00:00Z",
       changes: {

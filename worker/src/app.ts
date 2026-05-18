@@ -64,6 +64,10 @@ export interface Store {
   upsertTelegramLink(deviceId: string, link: TelegramLink): Promise<void>;
   removeTelegramLink(deviceId: string): Promise<void>;
   telegramLink(deviceId: string): Promise<TelegramLink | null>;
+  telegramSavedItems(chatId: string): Promise<string[]>;
+  replaceTelegramSavedItems(chatId: string, itemKeys: string[]): Promise<void>;
+  mergeTelegramSavedItems(chatId: string, itemKeys: string[]): Promise<void>;
+  telegramChatsWithSavedItem(itemKey: string): Promise<string[]>;
   devicesWithSavedItem(itemKey: string): Promise<string[]>;
   hasNotification(stockUpdatedAt: string, itemKey: string, channel: string, targetHash: string): Promise<boolean>;
   recordNotification(stockUpdatedAt: string, itemKey: string, channel: string, targetHash: string, status: string, error?: string): Promise<void>;
@@ -132,6 +136,8 @@ export function createApp(options: AppOptions = {}) {
           const body = await parseJson(request);
           const itemKeys = normalizeItemKeys(body?.itemKeys);
           await store.replaceSavedItems(device.id, itemKeys);
+          const telegram = await store.telegramLink(device.id);
+          if (telegram) await store.replaceTelegramSavedItems(telegram.chatId, itemKeys);
           await store.touchDevice(device.id);
           return new Response(null, { status: 204, headers: corsHeaders });
         }
@@ -157,6 +163,17 @@ export function createApp(options: AppOptions = {}) {
         }
 
         const telegramMatch = url.pathname.match(/^\/api\/devices\/([^/]+)\/telegram-link$/);
+        if (telegramMatch && request.method === "GET") {
+          const device = await authenticateDevice(request, store, telegramMatch[1]);
+          if (!device) return jsonResponse({ error: "Unauthorized" }, 401, corsHeaders);
+          const telegram = await store.telegramLink(device.id);
+          return jsonResponse({
+            linked: Boolean(telegram),
+            username: telegram?.username || "",
+            itemKeys: telegram ? await store.telegramSavedItems(telegram.chatId) : []
+          }, 200, corsHeaders);
+        }
+
         if (telegramMatch && request.method === "POST") {
           const device = await authenticateDevice(request, store, telegramMatch[1]);
           if (!device) return jsonResponse({ error: "Unauthorized" }, 401, corsHeaders);
@@ -326,6 +343,7 @@ async function handleTelegramUpdate(update: any, store: Store, env: Env, fetcher
 
   const username = typeof message.chat.username === "string" ? message.chat.username : undefined;
   await store.upsertTelegramLink(deviceId, { chatId, username });
+  await store.mergeTelegramSavedItems(chatId, await store.savedItems(deviceId));
   await sendTelegramMessage(fetcher, env, chatId, "Telegram is connected. Saved filament restock alerts will be sent here.");
 }
 
@@ -344,7 +362,8 @@ async function handleStockEvent(
 
   for (const item of payload.changes.inStock) {
     const deviceIds = await store.devicesWithSavedItem(item.key);
-    if (deviceIds.length) matchedItems += 1;
+    const telegramChatIds = await store.telegramChatsWithSavedItem(item.key);
+    if (deviceIds.length || telegramChatIds.length) matchedItems += 1;
     for (const deviceId of deviceIds) {
       const notification = notificationPayload(item);
       for (const subscription of await store.webPushSubscriptions(deviceId)) {
@@ -362,24 +381,24 @@ async function handleStockEvent(
           await store.recordNotification(payload.updatedAt, item.key, "web-push", targetHash, "failed", errorMessage(error));
         }
       }
+    }
 
-      const telegram = await store.telegramLink(deviceId);
-      if (telegram) {
-        const targetKey = `${item.key}|${telegram.chatId}`;
-        const targetHash = await hashToken(telegram.chatId);
-        if (telegramTargetsSeen.has(targetKey) || await store.hasNotification(payload.updatedAt, item.key, "telegram", targetHash)) {
-          skipped += 1;
-          continue;
-        }
-        telegramTargetsSeen.add(targetKey);
-        attempted += 1;
-        try {
-          await deliverTelegram(telegram.chatId, notification, env);
-          await store.recordNotification(payload.updatedAt, item.key, "telegram", targetHash, "sent");
-          sent += 1;
-        } catch (error) {
-          await store.recordNotification(payload.updatedAt, item.key, "telegram", targetHash, "failed", errorMessage(error));
-        }
+    const notification = notificationPayload(item);
+    for (const chatId of telegramChatIds) {
+      const targetKey = `${item.key}|${chatId}`;
+      const targetHash = await hashToken(chatId);
+      if (telegramTargetsSeen.has(targetKey) || await store.hasNotification(payload.updatedAt, item.key, "telegram", targetHash)) {
+        skipped += 1;
+        continue;
+      }
+      telegramTargetsSeen.add(targetKey);
+      attempted += 1;
+      try {
+        await deliverTelegram(chatId, notification, env);
+        await store.recordNotification(payload.updatedAt, item.key, "telegram", targetHash, "sent");
+        sent += 1;
+      } catch (error) {
+        await store.recordNotification(payload.updatedAt, item.key, "telegram", targetHash, "failed", errorMessage(error));
       }
     }
   }
@@ -491,6 +510,7 @@ export class MemoryStore implements Store {
   private saved = new Map<string, Set<string>>();
   private push = new Map<string, WebPushSubscriptionRecord[]>();
   private telegram = new Map<string, TelegramLink>();
+  private telegramSaved = new Map<string, Set<string>>();
   private pairings = new Map<string, { deviceId: string; expiresAt: string; usedAt?: string }>();
   private notifications = new Set<string>();
 
@@ -549,6 +569,28 @@ export class MemoryStore implements Store {
 
   async telegramLink(deviceId: string): Promise<TelegramLink | null> {
     return this.telegram.get(deviceId) || null;
+  }
+
+  async telegramSavedItems(chatId: string): Promise<string[]> {
+    return [...(this.telegramSaved.get(chatId) || new Set<string>())].sort();
+  }
+
+  async replaceTelegramSavedItems(chatId: string, itemKeys: string[]): Promise<void> {
+    this.telegramSaved.set(chatId, new Set(itemKeys));
+  }
+
+  async mergeTelegramSavedItems(chatId: string, itemKeys: string[]): Promise<void> {
+    const items = this.telegramSaved.get(chatId) || new Set<string>();
+    for (const itemKey of itemKeys) items.add(itemKey);
+    this.telegramSaved.set(chatId, items);
+  }
+
+  async telegramChatsWithSavedItem(itemKey: string): Promise<string[]> {
+    const enabledChats = new Set([...this.telegram.values()].map(link => link.chatId));
+    return [...this.telegramSaved.entries()]
+      .filter(([chatId, items]) => enabledChats.has(chatId) && items.has(itemKey))
+      .map(([chatId]) => chatId)
+      .sort();
   }
 
   async devicesWithSavedItem(itemKey: string): Promise<string[]> {
@@ -656,6 +698,38 @@ class D1Store implements Store {
       "select chat_id as chatId, username from telegram_links where device_id = ? and enabled = 1"
     ).bind(deviceId).first<TelegramLink>();
     return row || null;
+  }
+
+  async telegramSavedItems(chatId: string): Promise<string[]> {
+    const result = await this.db.prepare(
+      "select item_key as itemKey from telegram_saved_items where chat_id = ? order by item_key"
+    ).bind(chatId).all<{ itemKey: string }>();
+    return result.results.map(row => row.itemKey);
+  }
+
+  async replaceTelegramSavedItems(chatId: string, itemKeys: string[]): Promise<void> {
+    const now = new Date().toISOString();
+    await this.db.batch([
+      this.db.prepare("delete from telegram_saved_items where chat_id = ?").bind(chatId),
+      ...itemKeys.map(itemKey => this.db.prepare("insert into telegram_saved_items (chat_id, item_key, updated_at) values (?, ?, ?)").bind(chatId, itemKey, now))
+    ]);
+  }
+
+  async mergeTelegramSavedItems(chatId: string, itemKeys: string[]): Promise<void> {
+    if (!itemKeys.length) return;
+    const now = new Date().toISOString();
+    await this.db.batch(
+      itemKeys.map(itemKey => this.db.prepare(
+        "insert or ignore into telegram_saved_items (chat_id, item_key, updated_at) values (?, ?, ?)"
+      ).bind(chatId, itemKey, now))
+    );
+  }
+
+  async telegramChatsWithSavedItem(itemKey: string): Promise<string[]> {
+    const result = await this.db.prepare(
+      "select distinct tsi.chat_id as chatId from telegram_saved_items tsi join telegram_links tl on tl.chat_id = tsi.chat_id and tl.enabled = 1 where tsi.item_key = ? order by tsi.chat_id"
+    ).bind(itemKey).all<{ chatId: string }>();
+    return result.results.map(row => row.chatId);
   }
 
   async devicesWithSavedItem(itemKey: string): Promise<string[]> {

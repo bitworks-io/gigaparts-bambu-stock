@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-18T18:31:07+00:00",
-  "previousUpdatedAt": "2026-05-18T18:28:31+00:00",
+  "updatedAt": "2026-05-18T18:47:06+00:00",
+  "previousUpdatedAt": "2026-05-18T18:31:07+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -6012,19 +6012,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "brand": "Bambu",
-        "line": "PLA Matte",
-        "group": "PLA",
-        "name": "Ash Gray (1kg, Spool)",
-        "sku": "3DPF030",
-        "productId": "28777",
-        "url": "https://www.gigaparts.com/bambu-lab-pla-matte-3d-printer-filament.html?sku=3DPF030#product-28777",
-        "price": 22.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

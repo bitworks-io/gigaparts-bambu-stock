@@ -39,6 +39,9 @@ class PhoneNotificationBuildTests(unittest.TestCase):
         self.assertIn('id="telegram-link"', html)
         self.assertIn("iPhone/iPad: install this site to your Home Screen", html)
         self.assertIn("syncSavedItemsToWorker", html)
+        self.assertIn("pollTelegramLink", html)
+        self.assertIn("mergeSavedItemKeys", html)
+        self.assertIn("Telegram-linked browsers share one saved list", html)
 
     def test_build_writes_manifest_and_service_worker(self):
         build = load_build()

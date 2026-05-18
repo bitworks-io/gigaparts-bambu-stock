@@ -788,6 +788,22 @@ function loadSaved(){{
 function saveSaved(items){{
   localStorage.setItem(SAVED_KEY,JSON.stringify(items.slice(0,MAX_SAVED_ITEMS)));
 }}
+function itemDetailsForKey(key){{
+  return flatten(DATA,true).get(key)||{{key,brand:"",line:"Saved filament",name:key,sku:"",inStock:false,url:""}};
+}}
+function mergeSavedItemKeys(itemKeys){{
+  if(!Array.isArray(itemKeys)||!itemKeys.length)return false;
+  const current=savedWithFreshStock();
+  const byKey=new Map(current.map(item=>[item.key,item]));
+  let changed=false;
+  for(const key of itemKeys){{
+    if(typeof key!=="string"||!key||byKey.has(key))continue;
+    byKey.set(key,itemDetailsForKey(key));
+    changed=true;
+  }}
+  if(changed)saveSaved([...byKey.values()].slice(0,MAX_SAVED_ITEMS));
+  return changed;
+}}
 function alertDevice(){{
   const id=localStorage.getItem(ALERT_DEVICE_ID_KEY);
   const token=localStorage.getItem(ALERT_DEVICE_TOKEN_KEY);
@@ -831,6 +847,45 @@ async function syncSavedItemsToWorker(){{
     console.warn("Saved alert sync failed",error);
     setAlertStatus("Phone alert sync failed.");
   }}
+}}
+async function getTelegramLinkStatus(){{
+  const device=alertDevice();
+  if(!device)return {{linked:false,itemKeys:[]}};
+  return alertsRequest(`/api/devices/${{encodeURIComponent(device.id)}}/telegram-link`,{{
+    method:"GET",
+    headers:{{authorization:`Bearer ${{device.token}}`}}
+  }});
+}}
+async function syncTelegramSavedItemsFromWorker({{pushAfterMerge=false}}={{}}){{
+  try{{
+    const status=await getTelegramLinkStatus();
+    if(!status.linked)return false;
+    const changed=mergeSavedItemKeys(status.itemKeys||[]);
+    if(changed){{
+      renderSavedList();
+    }}
+    if(pushAfterMerge)await syncSavedItemsToWorker();
+    if((status.itemKeys||[]).length)setAlertStatus("Telegram shared saved list synced.");
+    return true;
+  }}catch(error){{
+    console.warn("Telegram shared list sync failed",error);
+    return false;
+  }}
+}}
+async function pollTelegramLink(){{
+  for(let attempt=0;attempt<30;attempt+=1){{
+    const linked=await syncTelegramSavedItemsFromWorker({{pushAfterMerge:true}});
+    if(linked){{
+      setAlertStatus("Telegram connected. Shared saved list is synced.");
+      return;
+    }}
+    await new Promise(resolve=>setTimeout(resolve,2000));
+  }}
+  setAlertStatus("Telegram pairing not confirmed yet. Return here after starting the bot.");
+}}
+async function initializeAlertSync(){{
+  const merged=await syncTelegramSavedItemsFromWorker({{pushAfterMerge:true}});
+  if(!merged)await syncSavedItemsToWorker();
 }}
 async function registerServiceWorker(){{
   if(!("serviceWorker" in navigator))throw new Error("Service workers are not supported in this browser.");
@@ -891,7 +946,8 @@ async function connectTelegram(){{
     }});
     await syncSavedItemsToWorker();
     window.open(response.pairingUrl,"_blank","noopener,noreferrer");
-    setAlertStatus("Telegram pairing link opened.");
+    setAlertStatus("Telegram pairing link opened. Waiting for bot confirmation.");
+    pollTelegramLink();
   }}catch(error){{
     console.warn("Telegram pairing failed",error);
     setAlertStatus("Telegram pairing failed.");
@@ -994,7 +1050,7 @@ function renderSavedList(){{
       <button id="telegram-unlink" type="button">Disconnect Telegram</button>
       <span class="phone-status" id="phone-alert-status">Phone alerts sync saved items to the notification backend.</span>
     </div>
-    <div class="saved-note">iPhone/iPad: install this site to your Home Screen before enabling Web Push. Telegram works from any browser after pairing.</div>
+    <div class="saved-note">iPhone/iPad: install this site to your Home Screen before enabling Web Push. Telegram works from any browser after pairing. Telegram-linked browsers share one saved list; removing or clearing here updates that shared list.</div>
     ${{items.length?`<ul class="saved-items">${{items.map(item=>`<li>
       <div class="saved-main"><strong>${{item.brand?esc(item.brand)+" - ":""}}${{esc(item.line)}} - ${{esc(item.name)}}</strong><span>${{item.sku?esc(item.sku)+" - ":""}}${{item.price!=null?money(item.price):""}}</span></div>
       <span class="saved-status ${{item.inStock?"in":"out"}}">${{item.inStock?"In stock":"Out of stock"}}</span>
@@ -1202,7 +1258,7 @@ const saved=localStorage.getItem("theme");
 if(saved){{document.documentElement.dataset.theme=saved;$("theme").textContent=saved==="dark"?"Light":"Dark";}}
 updateNotifyButton();
 registerServiceWorker().catch(error=>console.warn("Service worker registration failed",error));
-syncSavedItemsToWorker();
+initializeAlertSync();
 setInterval(refreshStock,POLL_MS);
 render();
 </script>

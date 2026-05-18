@@ -23,6 +23,9 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parent
 OUT_PATH = ROOT / "index.html"
 DATA_PATH = ROOT / "stock-data.json"
+MANIFEST_PATH = ROOT / "manifest.webmanifest"
+SERVICE_WORKER_PATH = ROOT / "sw.js"
+ALERT_WORKER_BASE = "https://gigaparts-stock-alerts.bitworks-io.workers.dev"
 BASE_URL = "https://www.gigaparts.com"
 OPTION_LABELS = {
     "3899": "Blue",
@@ -499,6 +502,7 @@ def render_html(data: dict[str, Any]) -> str:
         .replace("\u2028", "\\u2028")
         .replace("\u2029", "\\u2029")
     )
+    worker_base = json.dumps(ALERT_WORKER_BASE)
     return f"""<!doctype html>
 <html lang="en" data-theme="light">
 <head>
@@ -506,6 +510,7 @@ def render_html(data: dict[str, Any]) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GigaParts Filament Stock</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23172033'/%3E%3Ccircle cx='28' cy='30' r='20' fill='%230088d6'/%3E%3Ccircle cx='28' cy='30' r='12' fill='%23ffffff'/%3E%3Ccircle cx='28' cy='30' r='5' fill='%23172033'/%3E%3Cpath d='M42 30c10 0 15 5 15 12 0 5-3 9-8 9-4 0-7-3-7-7 0-3 2-5 5-5' fill='none' stroke='%23f5547c' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M13 16h30' stroke='%23fec700' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="manifest" href="manifest.webmanifest">
   <style>
     *,*::before,*::after{{box-sizing:border-box}}
     :root{{
@@ -552,6 +557,8 @@ def render_html(data: dict[str, Any]) -> str:
     .saved-head{{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border-bottom:1px solid var(--border);flex-wrap:wrap}}
     .saved-head h2{{font-size:15px;margin:0}}
     .saved-actions{{display:flex;gap:8px;align-items:center;flex-wrap:wrap}}
+    .phone-actions{{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-top:1px solid var(--border)}}
+    .phone-status{{color:var(--muted);font-size:12px;min-width:180px}}
     .saved-note{{color:var(--muted);font-size:12px;margin:8px 12px 0}}
     .saved-items{{list-style:none;margin:0;padding:0}}
     .saved-items li{{display:grid;grid-template-columns:minmax(180px,1fr) auto auto;gap:10px;align-items:center;padding:10px 12px;border-top:1px solid var(--border);font-size:13px}}
@@ -651,6 +658,9 @@ const POLL_MS=60*60*1000;
 const NOTIFY_KEY="gigapartsNotifyInStock";
 const SAVED_KEY="gigapartsSavedFilaments";
 const BROWSER_ID_KEY="gigapartsBrowserListId";
+const ALERT_DEVICE_ID_KEY="gigapartsAlertDeviceId";
+const ALERT_DEVICE_TOKEN_KEY="gigapartsAlertDeviceToken";
+const ALERT_WORKER_BASE=(window.GIGAPARTS_ALERTS_WORKER_URL||{worker_base}).replace(/\\/$/,"");
 const MAX_SAVED_ITEMS=500;
 const MAX_SAVED_BYTES=200000;
 let query="", statusFilter="all", sortMode="line";
@@ -778,6 +788,129 @@ function loadSaved(){{
 function saveSaved(items){{
   localStorage.setItem(SAVED_KEY,JSON.stringify(items.slice(0,MAX_SAVED_ITEMS)));
 }}
+function alertDevice(){{
+  const id=localStorage.getItem(ALERT_DEVICE_ID_KEY);
+  const token=localStorage.getItem(ALERT_DEVICE_TOKEN_KEY);
+  return id&&token?{{id,token}}:null;
+}}
+function setAlertStatus(message){{
+  const status=$("phone-alert-status");
+  if(status)status.textContent=message;
+}}
+async function alertsRequest(path,options={{}}){{
+  if(!ALERT_WORKER_BASE)throw new Error("Notification backend is not configured.");
+  const headers={{"content-type":"application/json",...(options.headers||{{}})}};
+  const response=await fetch(`${{ALERT_WORKER_BASE}}${{path}}`,{{...options,headers}});
+  if(!response.ok){{
+    const text=await response.text().catch(()=>"");
+    throw new Error(text||`HTTP ${{response.status}}`);
+  }}
+  return response.status===204?null:response.json();
+}}
+async function ensureAlertDevice(){{
+  const existing=alertDevice();
+  if(existing)return existing;
+  const created=await alertsRequest("/api/devices",{{method:"POST",body:JSON.stringify({{browserListId:browserListId()}})}});
+  localStorage.setItem(ALERT_DEVICE_ID_KEY,created.deviceId);
+  localStorage.setItem(ALERT_DEVICE_TOKEN_KEY,created.deviceToken);
+  return {{id:created.deviceId,token:created.deviceToken}};
+}}
+async function syncSavedItemsToWorker(){{
+  if(!ALERT_WORKER_BASE)return;
+  const device=alertDevice();
+  if(!device)return;
+  const itemKeys=savedWithFreshStock().map(item=>item.key).slice(0,MAX_SAVED_ITEMS);
+  try{{
+    await alertsRequest(`/api/devices/${{encodeURIComponent(device.id)}}/saved-items`,{{
+      method:"PUT",
+      headers:{{authorization:`Bearer ${{device.token}}`}},
+      body:JSON.stringify({{itemKeys}})
+    }});
+    if(itemKeys.length)setAlertStatus("Saved items synced for phone alerts.");
+  }}catch(error){{
+    console.warn("Saved alert sync failed",error);
+    setAlertStatus("Phone alert sync failed.");
+  }}
+}}
+async function registerServiceWorker(){{
+  if(!("serviceWorker" in navigator))throw new Error("Service workers are not supported in this browser.");
+  return navigator.serviceWorker.register("sw.js");
+}}
+function urlBase64ToUint8Array(value){{
+  const padding="=".repeat((4-value.length%4)%4);
+  const base64=(value+padding).replace(/-/g,"+").replace(/_/g,"/");
+  const raw=atob(base64);
+  return Uint8Array.from([...raw].map(ch=>ch.charCodeAt(0)));
+}}
+async function connectWebPush(){{
+  if(!("PushManager" in window)){{setAlertStatus("Web Push is not supported here.");return;}}
+  const permission=await Notification.requestPermission();
+  if(permission!=="granted"){{setAlertStatus("Web Push permission was not granted.");return;}}
+  try{{
+    const [device,config]=await Promise.all([ensureAlertDevice(),alertsRequest("/api/config")]);
+    const registration=await registerServiceWorker();
+    const subscription=await registration.pushManager.subscribe({{
+      userVisibleOnly:true,
+      applicationServerKey:urlBase64ToUint8Array(config.vapidPublicKey)
+    }});
+    await alertsRequest(`/api/devices/${{encodeURIComponent(device.id)}}/web-push-subscription`,{{
+      method:"POST",
+      headers:{{authorization:`Bearer ${{device.token}}`}},
+      body:JSON.stringify({{subscription:subscription.toJSON()}})
+    }});
+    await syncSavedItemsToWorker();
+    setAlertStatus("Web Push connected.");
+  }}catch(error){{
+    console.warn("Web Push setup failed",error);
+    setAlertStatus("Web Push setup failed.");
+  }}
+}}
+async function disconnectWebPush(){{
+  const device=alertDevice();
+  if(!device)return;
+  try{{
+    const registration=await navigator.serviceWorker?.getRegistration?.();
+    const subscription=await registration?.pushManager?.getSubscription?.();
+    await subscription?.unsubscribe?.();
+    await alertsRequest(`/api/devices/${{encodeURIComponent(device.id)}}/web-push-subscription`,{{
+      method:"DELETE",
+      headers:{{authorization:`Bearer ${{device.token}}`}}
+    }});
+    setAlertStatus("Web Push disconnected.");
+  }}catch(error){{
+    console.warn("Web Push disconnect failed",error);
+    setAlertStatus("Web Push disconnect failed.");
+  }}
+}}
+async function connectTelegram(){{
+  try{{
+    const device=await ensureAlertDevice();
+    const response=await alertsRequest(`/api/devices/${{encodeURIComponent(device.id)}}/telegram-link`,{{
+      method:"POST",
+      headers:{{authorization:`Bearer ${{device.token}}`}}
+    }});
+    await syncSavedItemsToWorker();
+    window.open(response.pairingUrl,"_blank","noopener,noreferrer");
+    setAlertStatus("Telegram pairing link opened.");
+  }}catch(error){{
+    console.warn("Telegram pairing failed",error);
+    setAlertStatus("Telegram pairing failed.");
+  }}
+}}
+async function disconnectTelegram(){{
+  const device=alertDevice();
+  if(!device)return;
+  try{{
+    await alertsRequest(`/api/devices/${{encodeURIComponent(device.id)}}/telegram-link`,{{
+      method:"DELETE",
+      headers:{{authorization:`Bearer ${{device.token}}`}}
+    }});
+    setAlertStatus("Telegram disconnected.");
+  }}catch(error){{
+    console.warn("Telegram disconnect failed",error);
+    setAlertStatus("Telegram disconnect failed.");
+  }}
+}}
 function savedWithFreshStock(){{
   const current=flatten(DATA,true);
   const saved=loadSaved();
@@ -800,10 +933,12 @@ function addSavedItem(key){{
     saveSaved(saved);
   }}
   renderSavedList();
+  syncSavedItemsToWorker();
 }}
 function removeSavedItem(key){{
   saveSaved(loadSaved().filter(item=>item.key!==key));
   renderSavedList();
+  syncSavedItemsToWorker();
 }}
 function savedListText(){{
   const items=savedWithFreshStock();
@@ -852,6 +987,14 @@ function renderSavedList(){{
       </div>
     </div>
     <div class="saved-note">Saved items are included in browser notifications when they newly come in stock while this page is open.</div>
+    <div class="phone-actions">
+      <button id="web-push-toggle" type="button">Connect Web Push</button>
+      <button id="web-push-disconnect" type="button">Disconnect Web Push</button>
+      <button id="telegram-link" type="button">Connect Telegram</button>
+      <button id="telegram-unlink" type="button">Disconnect Telegram</button>
+      <span class="phone-status" id="phone-alert-status">Phone alerts sync saved items to the notification backend.</span>
+    </div>
+    <div class="saved-note">iPhone/iPad: install this site to your Home Screen before enabling Web Push. Telegram works from any browser after pairing.</div>
     ${{items.length?`<ul class="saved-items">${{items.map(item=>`<li>
       <div class="saved-main"><strong>${{item.brand?esc(item.brand)+" - ":""}}${{esc(item.line)}} - ${{esc(item.name)}}</strong><span>${{item.sku?esc(item.sku)+" - ":""}}${{item.price!=null?money(item.price):""}}</span></div>
       <span class="saved-status ${{item.inStock?"in":"out"}}">${{item.inStock?"In stock":"Out of stock"}}</span>
@@ -1020,7 +1163,12 @@ $("saved-list").addEventListener("click",e=>{{
   if(e.target.id==="clear-list"){{
     saveSaved([]);
     renderSavedList();
+    syncSavedItemsToWorker();
   }}
+  if(e.target.id==="web-push-toggle")connectWebPush();
+  if(e.target.id==="web-push-disconnect")disconnectWebPush();
+  if(e.target.id==="telegram-link")connectTelegram();
+  if(e.target.id==="telegram-unlink")disconnectTelegram();
 }});
 $("alerts").addEventListener("click",e=>{{
   const more=e.target.closest("[data-alert-more]");
@@ -1053,6 +1201,8 @@ $("theme").addEventListener("click",()=>{{
 const saved=localStorage.getItem("theme");
 if(saved){{document.documentElement.dataset.theme=saved;$("theme").textContent=saved==="dark"?"Light":"Dark";}}
 updateNotifyButton();
+registerServiceWorker().catch(error=>console.warn("Service worker registration failed",error));
+syncSavedItemsToWorker();
 setInterval(refreshStock,POLL_MS);
 render();
 </script>
@@ -1061,13 +1211,65 @@ render();
 """
 
 
+def render_manifest() -> str:
+    manifest = {
+        "name": "GigaParts Filament Stock",
+        "short_name": "Filament Stock",
+        "description": "Saved filament restock alerts for GigaParts.",
+        "start_url": ".",
+        "scope": ".",
+        "display": "standalone",
+        "background_color": "#f7f8fb",
+        "theme_color": "#1768ac",
+        "icons": [
+            {
+                "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23172033'/%3E%3Ccircle cx='28' cy='30' r='20' fill='%230088d6'/%3E%3Ccircle cx='28' cy='30' r='12' fill='%23ffffff'/%3E%3Ccircle cx='28' cy='30' r='5' fill='%23172033'/%3E%3Cpath d='M42 30c10 0 15 5 15 12 0 5-3 9-8 9-4 0-7-3-7-7 0-3 2-5 5-5' fill='none' stroke='%23f5547c' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M13 16h30' stroke='%23fec700' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E",
+                "sizes": "64x64",
+                "type": "image/svg+xml",
+            }
+        ],
+    }
+    return json.dumps(manifest, indent=2) + "\n"
+
+
+def render_service_worker() -> str:
+    return """self.addEventListener("push", event => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch (error) {
+    data = { title: "GigaParts filament in stock", body: event.data ? event.data.text() : "" };
+  }
+  const title = data.title || "GigaParts filament in stock";
+  const options = {
+    body: data.body || "",
+    data: { url: data.url || "./" },
+    icon: data.icon || undefined,
+    badge: data.badge || undefined,
+    tag: data.tag || undefined,
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener("notificationclick", event => {
+  event.notification.close();
+  const targetUrl = event.notification.data && event.notification.data.url ? event.notification.data.url : "./";
+  event.waitUntil(clients.openWindow(targetUrl));
+});
+"""
+
+
 def main() -> int:
     previous = load_previous_data()
     data = build_data(previous)
     DATA_PATH.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
     OUT_PATH.write_text(render_html(data), encoding="utf-8")
+    MANIFEST_PATH.write_text(render_manifest(), encoding="utf-8")
+    SERVICE_WORKER_PATH.write_text(render_service_worker(), encoding="utf-8")
     print(f"Wrote {DATA_PATH}")
     print(f"Wrote {OUT_PATH}")
+    print(f"Wrote {MANIFEST_PATH}")
+    print(f"Wrote {SERVICE_WORKER_PATH}")
     if data["errors"]:
         print(f"Completed with {len(data['errors'])} scrape warning(s)", file=sys.stderr)
         return 1

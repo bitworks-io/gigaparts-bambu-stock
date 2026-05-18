@@ -23,10 +23,17 @@ jobs:
       - name: Build stock snapshot
         run: python build.py
 
+      - name: Post stock notifications
+        continue-on-error: true
+        env:
+          NOTIFY_WORKER_URL: ${{ secrets.NOTIFY_WORKER_URL }}
+          NOTIFY_WORKER_TOKEN: ${{ secrets.NOTIFY_WORKER_TOKEN }}
+        run: python scripts/post_stock_events.py
+
       - name: Commit stock update
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html stock-data.json
+          git add index.html stock-data.json manifest.webmanifest sw.js
           git diff --cached --quiet || git commit -m "Update GigaParts stock snapshot"
           git push

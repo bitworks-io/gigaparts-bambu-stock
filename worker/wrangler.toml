@@ -1,0 +1,16 @@
+name = "gigaparts-stock-alerts"
+main = "src/index.ts"
+compatibility_date = "2026-05-18"
+workers_dev = true
+preview_urls = false
+
+[vars]
+ALLOWED_ORIGINS = "https://bitworks-io.github.io,http://localhost:8000,http://127.0.0.1:8000"
+TELEGRAM_BOT_USERNAME = "GigaPartsFilamentAlertsBot"
+VAPID_PUBLIC_KEY = "BHYhLVmc5g4c9E7UNcT31BBdJoQFhhkLGjYiqgwin2_clK2F4pQXcz8vs4corZYuOEVrbpfXboNXXnnhImUmlXA"
+VAPID_SUBJECT = "mailto:alerts@bitworks.io"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "gigaparts-stock-alerts-db"
+database_id = "ef7b3799-67fb-4804-a217-76c500674232"

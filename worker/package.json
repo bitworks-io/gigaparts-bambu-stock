@@ -1,0 +1,21 @@
+{
+  "name": "gigaparts-stock-alerts-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "dependencies": {
+    "webpush-webcrypto": "^1.0.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260518.1",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4",
+    "wrangler": "^4.92.0"
+  }
+}

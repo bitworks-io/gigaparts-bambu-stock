@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-18T05:17:05+00:00",
-  "previousUpdatedAt": "2026-05-18T00:08:07+00:00",
+  "updatedAt": "2026-05-18T10:23:46+00:00",
+  "previousUpdatedAt": "2026-05-18T05:17:05+00:00",
   "source": "https://www.gigaparts.com",
   "lines": [
     {
@@ -5222,7 +5222,7 @@
           "sku": "3DPM0312",
           "productId": "38506",
           "inStock": true,
-          "price": 22.99,
+          "price": 17.99,
           "url": "https://www.gigaparts.com/polymaker-polylite-pla-pro-3d-printer-filament.html?sku=3DPM0312#product-38506"
         },
         {
@@ -6012,19 +6012,7 @@
   ],
   "changes": {
     "inStock": [],
-    "outOfStock": [
-      {
-        "brand": "Bambu",
-        "line": "ASA",
-        "group": "ASA",
-        "name": "White (1kg, Spool)",
-        "sku": "3DPF122",
-        "productId": "28864",
-        "url": "https://www.gigaparts.com/bambu-lab-asa-3d-printer-filament.html?sku=3DPF122#product-28864",
-        "price": 29.99,
-        "inStock": false
-      }
-    ]
+    "outOfStock": []
   },
   "errors": []
 }

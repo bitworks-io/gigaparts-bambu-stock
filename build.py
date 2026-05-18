@@ -559,6 +559,9 @@ def render_html(data: dict[str, Any]) -> str:
     .saved-actions{{display:flex;gap:8px;align-items:center;flex-wrap:wrap}}
     .phone-actions{{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-top:1px solid var(--border)}}
     .phone-status{{color:var(--muted);font-size:12px;min-width:180px}}
+    .telegram-pairing{{display:none;gap:8px;align-items:center;flex-wrap:wrap;padding:0 12px 10px}}
+    .telegram-pairing[aria-hidden="false"]{{display:flex}}
+    .telegram-pairing input{{flex:1;min-width:260px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}}
     .saved-note{{color:var(--muted);font-size:12px;margin:8px 12px 0}}
     .saved-items{{list-style:none;margin:0;padding:0}}
     .saved-items li{{display:grid;grid-template-columns:minmax(180px,1fr) auto auto;gap:10px;align-items:center;padding:10px 12px;border-top:1px solid var(--border);font-size:13px}}
@@ -813,6 +816,29 @@ function setAlertStatus(message){{
   const status=$("phone-alert-status");
   if(status)status.textContent=message;
 }}
+function showTelegramPairingLink(url){{
+  const panel=$("telegram-pairing-panel");
+  const input=$("telegram-pairing-url");
+  if(!panel||!input||!url)return;
+  input.value=url;
+  panel.setAttribute("aria-hidden","false");
+  input.focus();
+  input.select();
+}}
+async function copyTelegramPairingLink(){{
+  const input=$("telegram-pairing-url");
+  if(!input||!input.value)return;
+  input.focus();
+  input.select();
+  try{{
+    if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(input.value);
+    else document.execCommand("copy");
+    setAlertStatus("Telegram pairing link copied.");
+  }}catch(error){{
+    console.warn("Telegram pairing link copy failed",error);
+    setAlertStatus("Copy failed. Select and copy the Telegram link manually.");
+  }}
+}}
 async function alertsRequest(path,options={{}}){{
   if(!ALERT_WORKER_BASE)throw new Error("Notification backend is not configured.");
   const headers={{"content-type":"application/json",...(options.headers||{{}})}};
@@ -945,6 +971,7 @@ async function connectTelegram(){{
       headers:{{authorization:`Bearer ${{device.token}}`}}
     }});
     await syncSavedItemsToWorker();
+    showTelegramPairingLink(response.pairingUrl);
     window.open(response.pairingUrl,"_blank","noopener,noreferrer");
     setAlertStatus("Telegram pairing link opened. Waiting for bot confirmation.");
     pollTelegramLink();
@@ -1049,6 +1076,10 @@ function renderSavedList(){{
       <button id="telegram-link" type="button">Connect Telegram</button>
       <button id="telegram-unlink" type="button">Disconnect Telegram</button>
       <span class="phone-status" id="phone-alert-status">Phone alerts sync saved items to the notification backend.</span>
+    </div>
+    <div class="telegram-pairing" id="telegram-pairing-panel" aria-hidden="true">
+      <input id="telegram-pairing-url" type="text" readonly aria-label="Telegram pairing link">
+      <button id="telegram-copy-link" type="button">Copy Telegram Link</button>
     </div>
     <div class="saved-note">iPhone/iPad: install this site to your Home Screen before enabling Web Push. Telegram works from any browser after pairing. Telegram-linked browsers share one saved list; removing or clearing here updates that shared list.</div>
     ${{items.length?`<ul class="saved-items">${{items.map(item=>`<li>
@@ -1224,6 +1255,7 @@ $("saved-list").addEventListener("click",e=>{{
   if(e.target.id==="web-push-toggle")connectWebPush();
   if(e.target.id==="web-push-disconnect")disconnectWebPush();
   if(e.target.id==="telegram-link")connectTelegram();
+  if(e.target.id==="telegram-copy-link")copyTelegramPairingLink();
   if(e.target.id==="telegram-unlink")disconnectTelegram();
 }});
 $("alerts").addEventListener("click",e=>{{
